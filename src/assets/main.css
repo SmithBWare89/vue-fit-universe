@@ -54,7 +54,7 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 10px 10px;
+    padding: 20px 10px;
     opacity: .9;
     border-radius: 20px 20px;
 }
@@ -80,6 +80,7 @@ button {
     color: #ffffff;
     border: none;
     font-weight: 700;
+    margin-bottom: 10px;
 }
 
 .auth-switcher {
