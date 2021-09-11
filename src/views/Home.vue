@@ -5,7 +5,7 @@
         <div class="hero-btns">
         <router-link :to="{ name: 'Login' }">
           <button>
-                <p>GET STARTED</p>
+              GET STARTED
           </button>
         </router-link>
     </div>
