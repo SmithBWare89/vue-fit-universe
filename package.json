@@ -7,9 +7,13 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@popperjs/core": "^2.10.1",
+    "bootstrap": "^5.1.1",
+    "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
     "firebase": "^9.0.1",
-    "vue": "^3.0.0",
+    "semantic-ui-vue": "^0.11.0",
+    "vue": "^3.2.11",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
@@ -18,7 +22,6 @@
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "vue-cli-plugin-vuetify": "~2.4.2"
+    "@vue/compiler-sfc": "^3.0.0"
   }
 }
