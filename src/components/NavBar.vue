@@ -44,6 +44,8 @@ nav {
     align-items: center;
     background: var(--beau);
     font-family: 'Fira Sans', sans-serif;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .nav-header {
@@ -57,24 +59,45 @@ nav {
 
 .nav-links {
     display: flex;
+    justify-content: space-around;
     align-items: center;
-}
-
-.nav-links i {
-    margin: 5px 5px;
 }
 
 .nav-icons {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     margin: 0 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 5px 5px;
 }
 
 .nav-icons:hover {
     color: var(--white);
     background: var(--pewter);
+    height: 2em;
 }
 
+@media screen and (max-width: 960px) {
+    .nav-links {
+        margin-right: 60px;
+    }
+
+    .nav-icons {
+        padding-left: 5px;
+        padding-right: 5px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .nav-icons p {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .nav-links {
+        margin-right: 10px;
+    }
+}
 </style>
