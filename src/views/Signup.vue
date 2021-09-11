@@ -4,20 +4,16 @@
     </div>
   <div class="form-container">
     <h1>Signup for an account</h1>
-    <form @submit.prevent="handleLogin">
+    <form @submit.prevent="handleSignup">
+      <input type="text" v-model="displayName" placeholder="Display Name" required />
       <input type="email" v-model="email" placeholder="email" required />
-      <input
-        type="password"
-        v-model="password"
-        placeholder="password"
-        required
-      />
+      <input type="password" v-model="password" placeholder="password" required />
       <div class="error" v-if="error">{{ error }}</div>
       <button v-if="!isPending">Login</button>
       <button v-if="isPending">Logging in...</button>
     </form>
     <div class="auth-switcher">
-        <p>New to us? <router-link :to="{ name: 'Signup' }">Sign Up</router-link></p>
+        <p>Already have an account? <router-link :to="{ name: 'Login' }">Login</router-link></p>
     </div>
   </div>
 </template>
@@ -33,10 +29,17 @@ export default {
         const email = ref('')
         const password = ref('')
         const displayName = ref('')
-
         const { error, signup, isPending } = useSignup()
 
-        return { fit }
+        const handleSignup = async () => {
+            const res = await signup(email.value, password.value, displayName.value)
+            if(!error.value) {
+                console.log('user logged in')
+            }
+        }
+
+
+        return { fit, email, password, displayName, handleSignup, isPending }
     }
 }
 </script>
