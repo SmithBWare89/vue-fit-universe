@@ -26,12 +26,15 @@
 import { ref } from '@vue/reactivity';
 import useLogin from '../composables/login'
 import run from '../assets/videos/run.mp4'
+import { useRouter } from 'vue-router';
+
 
 export default {
   name: "Login",
   setup() {
       const email = ref('')
       const password = ref('')
+      const router = useRouter()
      
       const { error, loginUser, isPending } = useLogin();
 
@@ -39,6 +42,7 @@ export default {
           await loginUser(email.value, password.value)
           if(!error.value) {
               console.log('user logged in')
+              router.push({ name: 'Dashboard'})
           }
       }
 

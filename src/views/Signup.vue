@@ -22,6 +22,8 @@
 import { ref } from '@vue/reactivity'
 import fit from '../assets/videos/fit.mp4'
 import useSignup from '../composables/signup'
+import { useRouter } from 'vue-router';
+
 
 export default {
     name: 'Signup',
@@ -30,11 +32,13 @@ export default {
         const password = ref('')
         const displayName = ref('')
         const { error, signup, isPending } = useSignup()
+        const router = useRouter()
 
         const handleSignup = async () => {
             const res = await signup(email.value, password.value, displayName.value)
             if(!error.value) {
                 console.log('user logged in')
+                router.push({ name: 'Dashboard'})
             }
         }
 
