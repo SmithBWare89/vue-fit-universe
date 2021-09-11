@@ -1,6 +1,6 @@
 <template>
       <div>
-        <video :src="fit" preload="auto" autoplay loop muted playsInline type="video/mp4" />
+        <video :src="fit" preload="auto" autoplay loop muted playsInline type="video/mp4" alt="A video of women in a yoga class stretching."/>
     </div>
   <div class="form-container">
     <h1>Signup for an account</h1>
@@ -37,7 +37,6 @@ export default {
                 console.log('user logged in')
             }
         }
-
 
         return { fit, email, password, displayName, handleSignup, isPending }
     }

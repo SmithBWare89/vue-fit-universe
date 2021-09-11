@@ -30,8 +30,8 @@ body {
 .form-container h1 {
     font-size: 40px;
     margin: 0px auto 20px auto;
-    opacity: .7;
     font-family: 'Fira Sans', sans-serif;
+    font-weight: 700;
 }
 
 video {
@@ -89,10 +89,16 @@ button {
     padding: 5px;
     border-radius: 20px 20px;
     opacity: .9;
+    width: 100%;
+    text-align: center;
 }
 
 .auth-switcher p {
     padding: 10px;
     font-family: 'Roboto', sans-serif;
-    font-size: 15px;
+    font-size: 1em;
+}
+
+.auth-switch a {
+    text-decoration: none !important;
 }

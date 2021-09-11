@@ -1,6 +1,6 @@
 <template>
     <div>
-        <video :src="run" preload="auto" autoplay loop muted playsInline type="video/mp4" />
+        <video :src="run" preload="auto" autoplay loop muted playsInline type="video/mp4" alt="A video of a man jogging briskly across on a beach."/>
     </div>
   <div class="form-container">
     <h1>Login to your account</h1>
