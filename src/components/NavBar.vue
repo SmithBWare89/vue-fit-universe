@@ -46,7 +46,7 @@ nav {
 
 .nav-header h1 {
     margin: 0;
-    font-size: 40px;
+    font-size: 60px;
 }
 
 .nav-links {
