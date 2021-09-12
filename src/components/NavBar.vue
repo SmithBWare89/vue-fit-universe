@@ -20,8 +20,8 @@
                 <i class="fas fa-shopping-cart fa-3x"></i>
             </span>
         </div>
-        <div>
-            
+        <div class="menu-hamburger">
+            <i class="fas fa-bars"></i>
         </div>
     </nav>
     
@@ -75,20 +75,33 @@ nav {
     height: 2em;
 }
 
+.menu-hamburger {
+    display: none;
+}
+
 @media screen and (max-width: 960px) {
     .nav-links {
-        margin-right: 60px;
+        display: none;
     }
 
     .nav-icons {
         padding: 10px 10px;
         margin: 0 auto;
     }
+
+    .menu-hamburger {
+        margin-right: 20px;
+        font-size: 2em;
+    }
 }
 
 @media screen and (max-width: 768px) {
     .nav-icons p {
         display: none;
+    }
+
+    .menu-hamburger {
+        display: inline-block;
     }
 }
 
