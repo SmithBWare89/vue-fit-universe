@@ -5,25 +5,23 @@
         </div>
         <div class="nav-links">
             <span class="nav-icons">
-                <i class="fas fa-user"></i>
-                <p>User</p>
+                <i class="fas fa-user fa-3x"></i>
             </span>
             <span class="nav-icons">
-                <i class="fas fa-home"></i>
-                <p>Home</p>
+                <i class="fas fa-home fa-3x"></i>
             </span>
             <span class="nav-icons">
-                <i class="fas fa-dumbbell"></i>
-                <p>Workouts</p>
+                <i class="fas fa-dumbbell fa-3x"></i>
             </span>
             <span class="nav-icons">
-                <i class="fas fa-music"></i>
-                <p>Music</p>
+                <i class="fas fa-music fa-3x"></i>
             </span>
             <span class="nav-icons">
-                <i class="fas fa-shopping-cart"></i>
-                <p>Shop</p>
+                <i class="fas fa-shopping-cart fa-3x"></i>
             </span>
+        </div>
+        <div>
+            
         </div>
     </nav>
     
@@ -54,7 +52,7 @@ nav {
 
 .nav-header h1 {
     margin: 0;
-    font-size: 24px;
+    font-size: 40px;
 }
 
 .nav-links {
@@ -68,7 +66,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     margin: 0 10px;
-    padding: 5px 5px;
+    padding: 15px 15px;
 }
 
 .nav-icons:hover {
@@ -83,8 +81,7 @@ nav {
     }
 
     .nav-icons {
-        padding-left: 5px;
-        padding-right: 5px;
+        padding: 10px 10px;
         margin: 0 auto;
     }
 }
@@ -98,6 +95,18 @@ nav {
 @media screen and (max-width: 600px) {
     .nav-links {
         margin-right: 10px;
+    }
+
+    .nav-header h1 {
+        font-size: 30px;
+    }
+
+    .nav-icons {
+        padding: 4px 4px
+    }
+
+    .nav-icons i {
+        font-size: 1.5em;
     }
 }
 </style>
