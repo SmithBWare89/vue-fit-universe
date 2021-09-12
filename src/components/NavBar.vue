@@ -22,14 +22,26 @@
         </div>
         <div class="menu-hamburger">
             <i class="fas fa-bars"></i>
+            <div v-if="">
+                <SideNavigation props="navOpen"/>
+            </div>
         </div>
     </nav>
     
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
+import SideNavigation from '../components/SideNavigation.vue'
+
 export default {
-    name: 'NavBar'
+    name: 'NavBar',
+    components: { SideNavigation },
+    setup() {
+        const navOpen = ref(false)
+
+        return { navOpen }
+    }
 }
 </script>
 
@@ -72,7 +84,6 @@ nav {
 .nav-icons:hover {
     color: var(--white);
     background: var(--pewter);
-    height: 2em;
 }
 
 .menu-hamburger {
