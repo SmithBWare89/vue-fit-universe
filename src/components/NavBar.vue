@@ -54,6 +54,7 @@ nav {
     justify-content: space-around;
     align-items: center;
     height: 100%;
+    margin-right: 10px;
 }
 
 .nav-icons {
@@ -77,17 +78,25 @@ nav {
     .nav-icons {
         font-size: .8em;
     }
+
+    .nav-header h1 {
+        font-size: 45px;
+    }
 }
 
 @media screen and (max-width: 600px) {
+    nav {
+        width: 100%;
+    }
+
     .nav-icons {
-        font-size: .5em;
+        font-size: .4em;
         padding: 10px 10px;
         margin: 0 5px;
     }
 
     .nav-header h1 {
-        font-size: 20px;
+        font-size: 16px;
     }
 }
 </style>

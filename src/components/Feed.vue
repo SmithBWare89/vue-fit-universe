@@ -1,12 +1,15 @@
 <template>
     <div class="feed-container">
-        <h1>Hello</h1>
+        <NewPost />
     </div>
 </template>
 
 <script>
+import NewPost from './FeedContent/NewPost.vue'
+
 export default {
-    name: 'Feed'
+    name: 'Feed',
+    components: { NewPost }
 }
 </script>
 
