@@ -1,15 +1,22 @@
 <template>
     <div class="feed-container">
-        <NewPost />
+        <NavBar />
+        <Chatview />
+        <NewChat />
     </div>
 </template>
 
 <script>
-import NewPost from './FeedContent/NewPost.vue'
+import Chatview from './FeedContent/Chaview.vue';
+import NavBar from './FeedContent/NavBar.vue';
+import NewChat from './FeedContent/NewChat.vue'
 
 export default {
     name: 'Feed',
-    components: { NewPost }
+    components: { Chatview, NavBar, NewChat },
+    setup() {
+        
+    }
 }
 </script>
 

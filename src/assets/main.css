@@ -80,6 +80,7 @@ button {
     border: none;
     font-weight: 700;
     margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
 }
 
 .auth-switcher {
