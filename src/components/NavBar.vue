@@ -19,14 +19,35 @@
             <span class="nav-icons">
                 <i class="fas fa-shopping-cart fa-3x"></i>
             </span>
+            <span v-if="isOnDashboard" class="nav-icons">
+                <i class="fas fa-sign-out-alt fa-3x"></i>
+            </span>
         </div>
     </nav>
     
 </template>
 
 <script>
+import { ref, watch } from '@vue/runtime-core';
+import { useRoute } from 'vue-router'
 export default {
     name: 'NavBar',
+    setup() {
+        const route = useRoute();
+        const { path } = route;
+
+        const isOnDashboard = ref(false);
+
+        watch(path, () => {
+            if(path === '/dashboard') {
+                isOnDashboard.value = true
+            } else {
+                isOnDashboard.value = false
+            }
+        })
+
+        return { isOnDashboard }
+    }
 }
 </script>
 
