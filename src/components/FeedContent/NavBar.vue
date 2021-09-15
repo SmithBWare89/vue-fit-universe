@@ -32,7 +32,7 @@ export default {
     const handleLogout = async () => {
       await logout();
       if(!error.value) {
-        router.push({name: 'Welcome'})
+        router.push({name: 'Home'})
       }
     };
 

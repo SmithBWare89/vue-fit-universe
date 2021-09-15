@@ -18,7 +18,6 @@ import yoga2 from '../assets/videos/yoga2.mp4'
 export default {
   name: 'Home',
   setup() {
-
     return { yoga2 }
   }
 }
