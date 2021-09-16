@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { provide } from '@vue/runtime-core'
+import { onMounted, provide, ref, watch, watchEffect } from '@vue/runtime-core'
 import store from './store/index'
 import Dashboard from './views/Dashboard.vue'
 import NavBar from './components/NavBar.vue'

@@ -3,10 +3,10 @@ import { projectFirestore } from "../firebase/config";
 
 const error = ref(null)
 
-const addToCollection = async (collection, comment) => {
+const addToCollection = async (collection, data) => {
     try {
         // Take in the comment context object from NewChat.vue and add to collection
-       await projectFirestore.collection(collection).add(comment)
+       await projectFirestore.collection(collection).add(data)
     } catch (err) {
         error.value = err.message
     }
