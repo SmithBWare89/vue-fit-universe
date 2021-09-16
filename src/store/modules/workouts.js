@@ -10,7 +10,8 @@ const state = reactive({
     arms: '',
     neck: '',
     shoulders: '',
-    core: ''
+    core: '',
+    modalDisplay: false
 })
 
 const methods = {
@@ -48,6 +49,12 @@ const methods = {
             case 'cardio':
                 state.cardio = state.exercises.filter(exercise => exercise.bodyPart === 'cardio') 
         }
+    },
+    openModal() {
+        state.modalDisplay = true
+    },
+    closeModal() {
+        state.modalDisplay = false
     }
 }
 
