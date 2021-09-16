@@ -3,39 +3,50 @@
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <nav class="workout-select">
+                <div class="workout-select">
                     <span>All</span>
-                    <span>Back</span>
-                    <span>Shoulders</span>
-                    <span>Neck</span>
-                    <span>Arms</span>
-                    <span>Legs</span>
-                    <span>Chest</span>
-                    <span>Cardio</span>
-                    <span>Core</span>
-                    <span>Back</span>
+                    <button @click="handleSelection" id="back">Back</button>
                     <span class="close" @click="workouts.methods.closeModal">&times;</span>
-                </nav>
+                </div>
             </div>
-            <input>
+            <div class="exercise-list">
+                <span v-for="exercise in selectedMovement" :key="exercise.id" :id="exercise.id">
+                    <button @click="addMovement">{{exercise.name}}</button>
+                </span>
+            </div>
             <p>Some text in the Modal..</p>
         </div>
     </div>
 </template>
 
 <script>
-import { inject } from '@vue/runtime-core'
+import { inject, ref } from '@vue/runtime-core'
 export default {
     name: 'WorkoutModal',
     setup() {
         const store = inject('store')
-        console.log(store)
+        const selectedMovement = ref('')
         const { workouts } = store
 
-        // 
+        const handleSelection = (e) => {
+            const selected = e.target.innerHTML
+             switch (selected) {
+                 case "Back":
+                    selectedMovement.value = workouts.state.back
+             }
+        }
 
+        const addMovement = (e) => {
+            const movement = e.target.innerHTML
 
-        return { workouts }
+            if (workouts.state.activeWorkout.includes(movement)) {
+                return workouts.methods.removeFromWorkout(movement)
+            }
+
+            return workouts.methods.addToWorkout(movement)
+        }
+
+        return { workouts, handleSelection, selectedMovement, addMovement }
     }
 }
 </script>
@@ -81,4 +92,22 @@ export default {
     justify-content: space-evenly;
     align-items: center;
 }
+
+.exercise-list {
+    overflow: auto;
+    max-height: 300px !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    justify-self: left;
+}
+
+button {
+    margin: 5px 10px;
+}
+
+.exercise-list::-webkit-scrollbar {
+  display: none;
+}
+
 </style>

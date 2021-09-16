@@ -11,7 +11,8 @@ const state = reactive({
     neck: '',
     shoulders: '',
     core: '',
-    modalDisplay: false
+    modalDisplay: false,
+    activeWorkout: []
 })
 
 const methods = {
@@ -55,6 +56,12 @@ const methods = {
     },
     closeModal() {
         state.modalDisplay = false
+    },
+    addToWorkout(movement) {
+        state.activeWorkout.push(movement)
+    },
+    removeFromWorkout(movement) {
+        state.activeWorkout = state.activeWorkout.filter(exercise => exercise !== movement)
     }
 }
 
