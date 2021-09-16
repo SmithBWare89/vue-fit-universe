@@ -32,7 +32,7 @@ import useLogout from '../composables/signout'
 
 export default {
     name: 'NavBar',
-    setup(props, { emit }) {
+    setup() {
         const router = useRouter()
         const { error, logout } = useLogout()
 
@@ -41,7 +41,10 @@ export default {
         }
 
         const handleSignout = async () => {
-            await logout()
+            const response = await logout()
+            if (!error.value) {
+                router.push({ name: 'Home' })
+            }
         }
 
         return { 

@@ -13,7 +13,11 @@ const logout = async () => {
         navbar.methods.setPending(true)
         if (response) {
             navbar.methods.setPending(false)
+        } else if (!response) {
+            throw new Error('Error signing user out at this time.')
         }
+        error.value = false
+        return response
     } catch (err) {
         error.value = err.message
         navbar.methods.setPending(false)

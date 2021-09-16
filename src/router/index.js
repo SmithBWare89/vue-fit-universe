@@ -1,10 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import getUser from '../composables/getUser'
+import { projectAuth } from '../firebase/config'
 import Home from '../views/Home.vue'
 
-const { user } = getUser()
-
 const requireAuth = (to, from, next) => {
+  let user = projectAuth.currentUser
   // Grab the current user
   if(!user) {
     next({name: 'Home'})
@@ -14,6 +13,7 @@ const requireAuth = (to, from, next) => {
 }
 
 const requireNoAuth = (to, from, next) => {
+  let user = projectAuth.currentUser
   // Grab the current user
   if(user) {
     next({name: 'Dashboard'})
