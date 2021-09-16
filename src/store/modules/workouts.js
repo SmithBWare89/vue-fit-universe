@@ -34,21 +34,21 @@ const methods = {
     setExerciseState(bodyPart) {
         switch (bodyPart) {
             case 'back':
-                state.back = state.exercises.filter(exercise => exercise.bodyPart === 'back') 
-            case 'chest':
-                state.chest = state.exercises.filter(exercise => exercise.bodyPart === 'chest') 
-            case 'legs':
-                state.legs = state.exercises.filter(exercise => exercise.bodyPart === 'lower legs' || exercise.bodyPart === 'upper legs') 
-            case 'arms':
-                state.arms = state.exercises.filter(exercise => exercise.bodyPart === 'lower arms' || exercise.bodyPart === 'upper arms')
-            case 'neck':
-                state.neck = state.exercises.filter(exercise => exercise.bodyPart === 'neck') 
-            case 'shoulders':
-                state.shoulders = state.exercises.filter(exercise => exercise.bodyPart === 'shoulders') 
-            case 'core':
-                state.core = state.exercises.filter(exercise => exercise.bodyPart === 'waist') 
-            case 'cardio':
-                state.cardio = state.exercises.filter(exercise => exercise.bodyPart === 'cardio') 
+                state.back = state.exercises.filter(exercise => exercise.bodyPart === 'back').sort()
+            // case 'chest':
+            //     state.chest = state.exercises.filter(exercise => exercise.bodyPart === 'chest').sort()
+            // case 'legs':
+            //     state.legs = state.exercises.filter(exercise => exercise.bodyPart === 'lower legs' || exercise.bodyPart === 'upper legs').sort() 
+            // case 'arms':
+            //     state.arms = state.exercises.filter(exercise => exercise.bodyPart === 'lower arms' || exercise.bodyPart === 'upper arms').sort()
+            // case 'neck':
+            //     state.neck = state.exercises.filter(exercise => exercise.bodyPart === 'neck').sort() 
+            // case 'shoulders':
+            //     state.shoulders = state.exercises.filter(exercise => exercise.bodyPart === 'shoulders').sort() 
+            // case 'core':
+            //     state.core = state.exercises.filter(exercise => exercise.bodyPart === 'waist').sort() 
+            // case 'cardio':
+            //     state.cardio = state.exercises.filter(exercise => exercise.bodyPart === 'cardio').sort()
         }
     },
     openModal() {

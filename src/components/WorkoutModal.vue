@@ -11,10 +11,14 @@
             </div>
             <div class="exercise-list">
                 <span v-for="exercise in selectedMovement" :key="exercise.id" :id="exercise.id">
-                    <button @click="addMovement">{{exercise.name}}</button>
+                    <span v-if="workouts.state.activeWorkout.indexOf(exercise.name) > -1">
+                        <button class="selected" @click="addMovement">{{exercise.name}}</button>
+                    </span>
+                    <span v-else>
+                        <button @click="addMovement">{{exercise.name}}</button>
+                    </span>
                 </span>
             </div>
-            <p>Some text in the Modal..</p>
         </div>
     </div>
 </template>
@@ -40,9 +44,11 @@ export default {
             const movement = e.target.innerHTML
 
             if (workouts.state.activeWorkout.includes(movement)) {
+                e.target.classList.remove("selected")
                 return workouts.methods.removeFromWorkout(movement)
             }
 
+            e.target.classList.add("selected")
             return workouts.methods.addToWorkout(movement)
         }
 
@@ -97,7 +103,7 @@ export default {
     overflow: auto;
     max-height: 300px !important;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: space-between;
     justify-self: left;
 }
@@ -108,6 +114,11 @@ button {
 
 .exercise-list::-webkit-scrollbar {
   display: none;
+}
+
+.selected {
+    background: var(--white);
+    color: var(--munsell);
 }
 
 </style>
