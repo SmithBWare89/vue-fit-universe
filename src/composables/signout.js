@@ -1,25 +1,25 @@
 import { ref } from 'vue';
 import { projectAuth } from '../firebase/config';
+import store from '../store/index'
 
 const error = ref(null)
-const isPending = ref(false)
+const { navbar } = store
 
 const logout = async () => {
     error.value = null
-    isPending.value = true
     try {
         // Sign out using Firebase function
-        await projectAuth.signOut()
-        isPending.value = false
+        // await projectAuth.signOut()
+        navbar.methods.setPending(true)
     } catch (err) {
         error.value = err.message
-        isPending.value = false
+        navbar.methods.setPending(false)
     }
 }
 
 
 const useLogout = () => {
-    return { error, logout, isPending}
+    return { error, logout}
 }
 
 export default useLogout 

@@ -1,12 +1,5 @@
-import { createStore } from 'vuex'
+import navbar from './modules/navbar'
 
-export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+export default {
+  navbar
+}

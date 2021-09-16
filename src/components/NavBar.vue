@@ -19,28 +19,35 @@
             <span class="nav-icons" @click="handleRouterClick('Shop')">
                 <i class="fas fa-shopping-cart fa-3x"></i>
             </span>
-            <span class="nav-icons">
+            <span class="nav-icons" @click="handleSignout">
                 <i class="fas fa-sign-out-alt fa-3x"></i>
             </span>
         </div>
     </nav>
-    
 </template>
 
 <script>
-import { ref, watch } from '@vue/runtime-core';
 import { useRouter } from 'vue-router'
+import useLogout from '../composables/signout'
+
 export default {
     name: 'NavBar',
-    setup() {
+    setup(props, { emit }) {
         const router = useRouter()
+        const { error, logout } = useLogout()
 
         const handleRouterClick = (path) => {
-            router.push({ name: path})
+            router.push({ name: path })
         }
-        
 
-        return { handleRouterClick }
+        const handleSignout = async () => {
+            await logout()
+        }
+
+        return { 
+            handleRouterClick, 
+            handleSignout
+        }
     }
 }
 </script>
