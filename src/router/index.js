@@ -1,41 +1,69 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import getUser from '../composables/getUser'
 import Home from '../views/Home.vue'
+
+const { user } = getUser()
+
+const requireAuth = (to, from, next) => {
+  // Grab the current user
+  if(!user) {
+    next({name: 'Home'})
+  } else {
+    next()
+  }
+}
+
+const requireNoAuth = (to, from, next) => {
+  // Grab the current user
+  if(user) {
+    next({name: 'Dashboard'})
+  } else {
+    next()
+  }
+}
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter: requireNoAuth
   },
   {
     path: '/login',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
+    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'),
+    beforeEnter: requireNoAuth
   },
   {
     path: '/signup',
     name: 'Signup',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Signup.vue')
+    component: () => import(/* webpackChunkName: "Signup" */ '../views/Signup.vue'),
+    beforeEnter: requireNoAuth
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Dashboard.vue')
+    component: () => import(/* webpackChunkName: "Dashboard" */ '../views/Dashboard.vue'),
+    beforeEnter: requireAuth
   },
   {
     path: '/workout',
     name: 'Workout',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Workout.vue')
+    component: () => import(/* webpackChunkName: "Workout" */ '../views/Workout.vue'),
+    beforeEnter: requireAuth
   },
   {
     path: '/user',
     name: 'User',
-    component: () => import(/* webpackChunkName: "login" */ '../views/User.vue')
+    component: () => import(/* webpackChunkName: "User" */ '../views/User.vue'),
+    beforeEnter: requireAuth
   },
   {
     path: '/shop',
     name: 'Shop',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Shop.vue')
+    component: () => import(/* webpackChunkName: "Shop" */ '../views/Shop.vue'),
+    beforeEnter: requireAuth
   }
 ]
 

@@ -29,7 +29,6 @@ export default {
     const { user } = getUser()
     provide('store', store)
     const appStore = store
-    console.log(appStore.navbar.state.isPending)
     return { user, appStore }
   }
 }

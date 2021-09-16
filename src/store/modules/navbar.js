@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { reactive, readonly } from 'vue'
     
 const state = reactive({
     isPending: false
@@ -11,4 +11,4 @@ const methods = {
 }
 
 
-export default { state, methods }
+export default { state: readonly(state), methods }
