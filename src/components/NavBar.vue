@@ -4,22 +4,22 @@
             <h1>Fit Universe</h1>
         </div>
         <div class="nav-links">
-            <span class="nav-icons">
-                <i class="fas fa-user fa-3x"></i>
-            </span>
-            <span class="nav-icons">
+            <span class="nav-icons" @click="handleRouterClick('Dashboard')">
                 <i class="fas fa-home fa-3x"></i>
             </span>
-            <span class="nav-icons">
+            <span class="nav-icons" @click="handleRouterClick('User')">
+                <i class="fas fa-user fa-3x"></i>
+            </span>
+            <span class="nav-icons" @click="handleRouterClick('Workout')">
                 <i class="fas fa-dumbbell fa-3x"></i>
             </span>
-            <span class="nav-icons">
+            <!-- <span class="nav-icons">
                 <i class="fas fa-music fa-3x"></i>
-            </span>
-            <span class="nav-icons">
+            </span> -->
+            <span class="nav-icons" @click="handleRouterClick('Shop')">
                 <i class="fas fa-shopping-cart fa-3x"></i>
             </span>
-            <span v-if="isOnDashboard" class="nav-icons">
+            <span class="nav-icons">
                 <i class="fas fa-sign-out-alt fa-3x"></i>
             </span>
         </div>
@@ -29,24 +29,18 @@
 
 <script>
 import { ref, watch } from '@vue/runtime-core';
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 export default {
     name: 'NavBar',
     setup() {
-        const route = useRoute();
-        const { path } = route;
+        const router = useRouter()
 
-        const isOnDashboard = ref(false);
+        const handleRouterClick = (path) => {
+            router.push({ name: path})
+        }
+        
 
-        watch(path, () => {
-            if(path === '/dashboard') {
-                isOnDashboard.value = true
-            } else {
-                isOnDashboard.value = false
-            }
-        })
-
-        return { isOnDashboard }
+        return { handleRouterClick }
     }
 }
 </script>
@@ -90,6 +84,18 @@ nav {
 .nav-icons:hover {
     color: var(--white);
     background: var(--pewter);
+}
+
+li {
+    color: none
+}
+
+li:active {
+
+}
+
+li.active {
+
 }
 
 @media screen and (max-width: 960px) {

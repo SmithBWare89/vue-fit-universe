@@ -9,23 +9,21 @@
         {{ error }}
       </div>
     </div>
-    <div>
-      <button @click="handleLogout">Logout</button>
-    </div>
   </nav>
 </template>
 
 <script>
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
+
 // Composables
-import getUser from "../../composables/getUser";
-import useLogout from "../../composables/signout";
+import getUser from "../../composables/getUser"
+import useLogout from "../../composables/signout"
 
 export default {
   name: "NavBar",
   setup() {
-    const { error, logout } = useLogout();
-    const { user } = getUser();
+    const { error, logout } = useLogout()
+    const { user } = getUser()
     const router = useRouter()
 
     // Async function to handle logout button click

@@ -134,3 +134,7 @@ button {
     border: 5px solid var(--white);
     color: var(--pewter);
 }
+
+a {
+    text-decoration: none;
+}

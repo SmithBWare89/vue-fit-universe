@@ -1,5 +1,4 @@
 <template>
-    <NavBar />
     <div class="app-content">
         <!-- App Components Will Go here -->
         <Feed />
