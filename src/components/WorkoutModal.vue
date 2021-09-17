@@ -2,44 +2,88 @@
     <div v-if="workouts.state.modalDisplay" id="myModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
+
+            <!-- Modal Header -->
             <div class="modal-header">
+                    <h2>Select Movement</h2>
                 <div class="workout-select">
-                    <span>All</span>
-                    <button @click="handleSelection" id="back">Back</button>
-                    <span class="close" @click="workouts.methods.closeModal">&times;</span>
+                    <button @click="handleSelection" id="All">All</button>
+                    <button @click="handleSelection" id="Arms">Arms</button>
+                    <button @click="handleSelection" id="Back">Back</button>
+                    <button @click="handleSelection" id="Chest">Chest</button>
+                    <button @click="handleSelection" id="Core">Core</button>
+                    <button @click="handleSelection" id="Legs">Legs</button>
+                    <button @click="handleSelection" id="Neck">Neck</button>
+                    <button @click="handleSelection" id="Shoulders">Shoulders</button>
                 </div>
             </div>
+            <!-- Workout Selection -->
             <div class="exercise-list">
+                <!-- Map over selected option from header and print -->
                 <span v-for="exercise in selectedMovement" :key="exercise.id" :id="exercise.id">
+                    <!-- Conditional - If workout already selected then add "Selected Class" -->
                     <span v-if="workouts.state.activeWorkout.indexOf(exercise.name) > -1">
                         <button class="selected" @click="addMovement">{{exercise.name}}</button>
                     </span>
+                    <!-- ELSE -->
                     <span v-else>
                         <button @click="addMovement">{{exercise.name}}</button>
                     </span>
                 </span>
             </div>
+            <button class="close" @click="workouts.methods.closeModal">Save Movements</button>
         </div>
     </div>
 </template>
 
 <script>
-import { inject, ref } from '@vue/runtime-core'
+import { inject, ref, watch } from '@vue/runtime-core'
 export default {
     name: 'WorkoutModal',
     setup() {
         const store = inject('store')
-        const selectedMovement = ref('')
+        const selectedMovement = ref({})
+        const storeMovement = ref({})
         const { workouts } = store
 
+        // Switch operator to return the movements requested
         const handleSelection = (e) => {
             const selected = e.target.innerHTML
-             switch (selected) {
-                 case "Back":
-                    selectedMovement.value = workouts.state.back
-             }
+            //  switch (selected) {
+            //      case "All":
+            //         selectedMovement.value = workouts.state.exercises
+            //         break;
+            //      case "Back":
+            //         selectedMovement.value = workouts.state.back
+            //         break;
+            //      case "Cardio":
+            //         selectedMovement.value = workouts.state.cardio
+            //         break;
+            //      case "Chest":
+            //         selectedMovement.value = workouts.state.chest
+            //         break;
+            //      case "Legs":
+            //         selectedMovement.value = workouts.state.legs
+            //         break;
+            //      case "Arms":
+            //         selectedMovement.value = workouts.state.arms
+            //         break;
+            //      case "Neck":
+            //         selectedMovement.value = workouts.state.neck
+            //         break;
+            //      case "Shoulders":
+            //         selectedMovement.value = workouts.state.shoulders
+            //         break;
+            //      case "Core":
+            //         selectedMovement.value = workouts.state.core
+            //         break;
+            //     default:
+            //         selectedMovement.value = workouts.state.exercises
+            //         break;
+            //  }
         }
 
+        // Add/Remove movement to activeWorkouts state
         const addMovement = (e) => {
             const movement = e.target.innerHTML
 
@@ -52,7 +96,11 @@ export default {
             return workouts.methods.addToWorkout(movement)
         }
 
-        return { workouts, handleSelection, selectedMovement, addMovement }
+        watch(selectedMovement.value, () => {
+            storeMovement.value = selectedMovement.value
+        })
+
+        return { workouts, handleSelection, selectedMovement, addMovement, storeMovement }
     }
 }
 </script>
@@ -71,6 +119,11 @@ export default {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+.modal-header {
+    display: flex;
+    flex-direction: column;
+}
+
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
@@ -80,23 +133,22 @@ export default {
 }
 
 .close {
-  color: #aaa;
-  /* float: right; */
-  font-size: 28px;
-  font-weight: bold;
+    background: var(--green);
+    color: var(--white);
+    font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
+    color: var(--green);
+    background: var(--white);
   text-decoration: none;
   cursor: pointer;
 }
 
 .workout-select {
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+    justify-content: flex-start;
 }
 
 .exercise-list {
@@ -108,8 +160,20 @@ export default {
     justify-self: left;
 }
 
+h2 {
+    margin-bottom: 2px;
+}
+
 button {
-    margin: 5px 10px;
+    margin-right: 5px;
+}
+
+button:hover,
+button:focus {
+    color: var(--munsell);
+    background: var(--white);
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .exercise-list::-webkit-scrollbar {
