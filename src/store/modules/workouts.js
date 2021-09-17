@@ -111,8 +111,6 @@ const methods = {
     updateSet(className, value, movementName) {
         const findMovement = state.activeWorkout.find(exercise => exercise.movement === movementName)
         findMovement.sets = {...findMovement.sets, [className]: value}
-        console.log(state)
-        console.log(state.activeWorkout)
     }
 }
 

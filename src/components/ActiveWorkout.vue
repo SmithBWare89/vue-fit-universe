@@ -87,7 +87,7 @@ export default {
                 el[0].parentNode.removeChild(el[0])
             }
 
-            workouts.methods.decreaseSets(movement)
+            workouts.methods.decreaseSets(movement, `${movementClass.value}`)
         }
 
         document.addEventListener('change', (e) => {
