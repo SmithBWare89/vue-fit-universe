@@ -73,7 +73,7 @@ const methods = {
             state.ongoingWorkout = false
         }
     },
-    addToWorkout(movement) {
+    addToWorkout(movement, state) {
         state.activeWorkout.push({
             movement,
             numberSets: 0,
@@ -102,6 +102,17 @@ const methods = {
                 console.log(exercise.numberSets)
             }
         })
+    },
+    addNewSet(className, movementName) {
+        const findMovement = state.activeWorkout.find(exercise => exercise.movement === movementName)
+        findMovement.sets = {...findMovement.sets, [`${className}-rep`]: 0}
+        findMovement.sets = {...findMovement.sets, [`${className}-weight`]: 0}
+    },
+    updateSet(className, value, movementName) {
+        const findMovement = state.activeWorkout.find(exercise => exercise.movement === movementName)
+        findMovement.sets = {...findMovement.sets, [className]: value}
+        console.log(state)
+        console.log(state.activeWorkout)
     }
 }
 

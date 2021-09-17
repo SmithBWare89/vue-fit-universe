@@ -32,6 +32,8 @@ export default {
         }
         const { workouts } = store
 
+        const consoleLog = () => console.log('Hello')
+
     // Click to add the set
     // Add button and two inputs to sets field
         const addSet = (movement, numberSets) => {
@@ -49,29 +51,22 @@ export default {
 
             wrapperEl.appendChild(buttonEl)
 
-            // const setInputsDiv = document.createElement("div")
-            // setInputsDiv.setAttribute("class", movementClass.value)
-            // setInputsDiv.classList.add("set-inputs")
-
             const setInput = document.createElement("input")
             setInput.setAttribute("class", movementClass.value)
-            setInput.setAttribute("name", movementClass.value)
+            setInput.setAttribute("class", `${movementClass.value}-rep`)
+            setInput.setAttribute("name", movement)
             setInput.setAttribute("type", "number")
             setInput.setAttribute("min", 1)
             setInput.setAttribute("max", 100)
             setInput.setAttribute("placeholder", "Enter Reps")
+
             setInput.classList.add(`set-inputs`)
             wrapperEl.appendChild(setInput)
 
-            // wrapperEl.appendChild(setInputsDiv)
-
-            // const repsInputsDiv = document.createElement("div")
-            // repsInputsDiv.setAttribute("class", movementClass.value)
-            // repsInputsDiv.classList.add(`set-inputs`)
-
             const repsInput = document.createElement("input")
             repsInput.setAttribute("class", movementClass.value)
-            repsInput.setAttribute("name", movementClass.value)
+            repsInput.setAttribute("class", `${movementClass.value}-weight`)
+            repsInput.setAttribute("name", movement)
             repsInput.setAttribute("type", "number")
             repsInput.setAttribute("min", 2)
             repsInput.setAttribute("max", 500)
@@ -79,10 +74,9 @@ export default {
             repsInput.classList.add(`set-inputs`)
             wrapperEl.appendChild(repsInput)
 
-            // wrapperEl.appendChild(repsInputsDiv)
-
             sets.appendChild(wrapperEl)
 
+            workouts.methods.addNewSet(movementClass.value, movement)
             workouts.methods.increaseSets(movement)
         }
 
@@ -96,7 +90,16 @@ export default {
             workouts.methods.decreaseSets(movement)
         }
 
-        return { workouts, sets, addSet, deleteSet }
+        document.addEventListener('change', (e) => {
+            // See if the className matches for the movement and if so pass it and its value to update
+            if (e.target.classList[0] === `${movementClass.value}-weight`) {
+                workouts.methods.updateSet(`${movementClass.value}-weight`, e.target.value, e.target.getAttribute("name"))
+            } else if(e.target.classList[0] === `${movementClass.value}-rep`) {
+                workouts.methods.updateSet(`${movementClass.value}-rep`, e.target.value, e.target.getAttribute("name"))
+            }
+        })
+
+        return { workouts, sets, addSet, deleteSet, consoleLog, movementClass }
     }
 }
 </script>
