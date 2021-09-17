@@ -5,7 +5,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                    <h2>Select Movement</h2>
+                <h2 class="section-name">Select Exercise Focus</h2>
                 <div class="workout-select">
                     <button @click="handleSelection" id="All">All</button>
                     <button @click="handleSelection" id="Arms">Arms</button>
@@ -18,6 +18,7 @@
                 </div>
             </div>
             <!-- Workout Selection -->
+            <h2 class="section-name">Select Movement</h2>
             <div class="exercise-list">
                 <!-- Map over selected option from header and print -->
                 <span v-for="exercise in selectedMovement" :key="exercise.id" :id="exercise.id">
@@ -31,7 +32,11 @@
                     </span>
                 </span>
             </div>
-            <button class="close" @click="workouts.methods.closeModal">Save Movements</button>
+            <!-- Close Button -->
+            <div>
+                <button class="close" @click="workouts.methods.closeModal">Save/Exit</button>
+                <button class="clear-workout" @click="workouts.methods.clearActiveWorkout">Clear Workout</button>
+            </div>
         </div>
     </div>
 </template>
@@ -49,38 +54,38 @@ export default {
         // Switch operator to return the movements requested
         const handleSelection = (e) => {
             const selected = e.target.innerHTML
-            //  switch (selected) {
-            //      case "All":
-            //         selectedMovement.value = workouts.state.exercises
-            //         break;
-            //      case "Back":
-            //         selectedMovement.value = workouts.state.back
-            //         break;
-            //      case "Cardio":
-            //         selectedMovement.value = workouts.state.cardio
-            //         break;
-            //      case "Chest":
-            //         selectedMovement.value = workouts.state.chest
-            //         break;
-            //      case "Legs":
-            //         selectedMovement.value = workouts.state.legs
-            //         break;
-            //      case "Arms":
-            //         selectedMovement.value = workouts.state.arms
-            //         break;
-            //      case "Neck":
-            //         selectedMovement.value = workouts.state.neck
-            //         break;
-            //      case "Shoulders":
-            //         selectedMovement.value = workouts.state.shoulders
-            //         break;
-            //      case "Core":
-            //         selectedMovement.value = workouts.state.core
-            //         break;
-            //     default:
-            //         selectedMovement.value = workouts.state.exercises
-            //         break;
-            //  }
+             switch (selected) {
+                 case "All":
+                    selectedMovement.value = workouts.state.exercises
+                    break;
+                 case "Back":
+                    selectedMovement.value = workouts.state.back
+                    break;
+                 case "Cardio":
+                    selectedMovement.value = workouts.state.cardio
+                    break;
+                 case "Chest":
+                    selectedMovement.value = workouts.state.chest
+                    break;
+                 case "Legs":
+                    selectedMovement.value = workouts.state.legs
+                    break;
+                 case "Arms":
+                    selectedMovement.value = workouts.state.arms
+                    break;
+                 case "Neck":
+                    selectedMovement.value = workouts.state.neck
+                    break;
+                 case "Shoulders":
+                    selectedMovement.value = workouts.state.shoulders
+                    break;
+                 case "Core":
+                    selectedMovement.value = workouts.state.core
+                    break;
+                default:
+                    selectedMovement.value = workouts.state.exercises
+                    break;
+             }
         }
 
         // Add/Remove movement to activeWorkouts state
@@ -107,7 +112,6 @@ export default {
 
 <style scoped>
 .modal {
-  display: block; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1000; /* Sit on top */
   left: 0;
@@ -142,8 +146,8 @@ export default {
 .close:focus {
     color: var(--green);
     background: var(--white);
-  text-decoration: none;
-  cursor: pointer;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .workout-select {
@@ -153,11 +157,14 @@ export default {
 
 .exercise-list {
     overflow: auto;
-    max-height: 300px !important;
-    display: flex;
-    flex-direction: column;
+    max-height: 250px !important;
+    display: grid;
+    /* flex-direction: column;
     justify-content: space-between;
-    justify-self: left;
+    justify-self: left; */
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-bottom: 20px;
 }
 
 h2 {
@@ -166,6 +173,7 @@ h2 {
 
 button {
     margin-right: 5px;
+    font-family: 'Fira Sans', sans-serif;
 }
 
 button:hover,
@@ -185,4 +193,45 @@ button:focus {
     color: var(--munsell);
 }
 
+
+.section-name {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 30px;
+    border-bottom: 2px solid var(--munsell);
+    margin-bottom: 10px;
+}
+
+.clear-workout {
+    background-color: var(--red);
+}
+
+.clear-workout:hover,
+.clear-workout:focus {
+    background-color: var(--white);
+    color: var(--red);
+}
+
+@media screen and (min-width: 600px) and (max-width: 900px) {
+    .workout-select {
+        flex-wrap: wrap;
+    }
+
+    .section-name {
+        font-size: 25px;
+    }
+
+    .exercise-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (min-width: 300px) and (max-width: 599px)  {
+    .exercise-list {
+        grid-template-columns: 1fr;
+    }
+
+    .workout-select {
+        flex-wrap: wrap;
+    }
+}
 </style>

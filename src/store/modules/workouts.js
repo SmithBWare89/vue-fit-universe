@@ -62,6 +62,9 @@ const methods = {
     },
     removeFromWorkout(movement) {
         state.activeWorkout = state.activeWorkout.filter(exercise => exercise !== movement)
+    },
+    clearActiveWorkout() {
+        state.activeWorkout = []
     }
 }
 
