@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="workouts.state.ongoingWorkout">
+    <ActiveWorkout />
+  </div>
+  <div v-else>
       <button class="select-workouts" @click.prevent="workouts.methods.openModal">Select Workouts</button>
       <WorkoutModal />
   </div>
@@ -8,10 +11,11 @@
 <script>
 import { inject, onMounted} from '@vue/runtime-core'
 import WorkoutModal from '../components/WorkoutModal.vue'
+import ActiveWorkout from '../components/ActiveWorkout.vue'
 
 export default {
     name: 'Workout',
-    components: {WorkoutModal},
+    components: {WorkoutModal, ActiveWorkout},
     setup() {
       const store = inject('store')
       const { workouts } = store

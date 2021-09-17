@@ -1,3 +1,4 @@
+import { startOfMinute, startOfQuarter } from 'date-fns'
 import { reactive, readonly } from 'vue'
 
 const state = reactive({
@@ -12,7 +13,12 @@ const state = reactive({
     shoulders: [],
     core: [],
     modalDisplay: false,
-    activeWorkout: []
+    activeWorkout: [{
+        movement: 'bench press',
+        numberSets: 0,
+        sets: {}
+    }],
+    ongoingWorkout: true
 })
 
 const methods = {
@@ -53,18 +59,49 @@ const methods = {
     },
     openModal() {
         state.modalDisplay = true
+        if(state.activeWorkout.length >= 1) {
+            state.ongoingWorkout = true
+        } else {
+            state.ongoingWorkout = false
+        }
     },
     closeModal() {
         state.modalDisplay = false
+        if(state.activeWorkout.length >= 1) {
+            state.ongoingWorkout = true
+        } else {
+            state.ongoingWorkout = false
+        }
     },
     addToWorkout(movement) {
-        state.activeWorkout.push(movement)
+        state.activeWorkout.push({
+            movement,
+            numberSets: 0,
+            sets: []
+        })
     },
     removeFromWorkout(movement) {
-        state.activeWorkout = state.activeWorkout.filter(exercise => exercise !== movement)
+        state.activeWorkout = state.activeWorkout.filter(exercise => exercise.movement !== movement)
     },
     clearActiveWorkout() {
         state.activeWorkout = []
+    },
+    increaseSets(movement) {
+        state.activeWorkout.map(exercise => {
+            if (exercise.movement === movement) {
+                exercise.numberSets++
+                console.log(exercise.numberSets)
+            }
+        })
+    },
+    decreaseSets(movement) {
+        state.activeWorkout.map((exercise, index, array) => {
+            console.log(array)
+            if (exercise.movement === movement && exercise.numberSets > 0) {
+                exercise.numberSets--
+                console.log(exercise.numberSets)
+            }
+        })
     }
 }
 
