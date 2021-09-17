@@ -1,11 +1,7 @@
 <template>
-  <div v-if="workouts.state.ongoingWorkout">
+    <button class="select-workouts" @click.prevent="workouts.methods.openModal">Select Workouts</button>
     <ActiveWorkout />
-  </div>
-  <div v-else>
-      <button class="select-workouts" @click.prevent="workouts.methods.openModal">Select Workouts</button>
-      <WorkoutModal />
-  </div>
+    <WorkoutModal />
 </template>
 
 <script>

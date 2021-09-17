@@ -13,11 +13,7 @@ const state = reactive({
     shoulders: [],
     core: [],
     modalDisplay: false,
-    activeWorkout: [{
-        movement: 'bench press',
-        numberSets: 0,
-        sets: {}
-    }],
+    activeWorkout: [],
     ongoingWorkout: true
 })
 
@@ -25,7 +21,7 @@ const methods = {
     async getExercises() {
         try {
             const response = await fetch("https://exercisedb.p.rapidapi.com/exercises", {
-                "method": "GET",
+               "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "exercisedb.p.rapidapi.com",
                     "x-rapidapi-key": "ff95631745msh38f883d1de356a1p18e460jsn1c84f216cb9a"
@@ -73,11 +69,11 @@ const methods = {
             state.ongoingWorkout = false
         }
     },
-    addToWorkout(movement, state) {
+    addToWorkout(movement) {
         state.activeWorkout.push({
             movement,
             numberSets: 0,
-            sets: []
+            sets: {}
         })
     },
     removeFromWorkout(movement) {
@@ -90,16 +86,13 @@ const methods = {
         state.activeWorkout.map(exercise => {
             if (exercise.movement === movement) {
                 exercise.numberSets++
-                console.log(exercise.numberSets)
             }
         })
     },
     decreaseSets(movement) {
         state.activeWorkout.map((exercise, index, array) => {
-            console.log(array)
             if (exercise.movement === movement && exercise.numberSets > 0) {
                 exercise.numberSets--
-                console.log(exercise.numberSets)
             }
         })
     },
@@ -107,10 +100,17 @@ const methods = {
         const findMovement = state.activeWorkout.find(exercise => exercise.movement === movementName)
         findMovement.sets = {...findMovement.sets, [`${className}-rep`]: 0}
         findMovement.sets = {...findMovement.sets, [`${className}-weight`]: 0}
+        methods.increaseSets(movementName)
     },
     updateSet(className, value, movementName) {
         const findMovement = state.activeWorkout.find(exercise => exercise.movement === movementName)
         findMovement.sets = {...findMovement.sets, [className]: value}
+    },
+    deleteSet(className, movementName) {
+        const findMovement = state.activeWorkout.find(exercise => exercise.movement === movementName)
+        delete findMovement.sets[`${className}-rep`]
+        delete findMovement.sets[`${className}-weight`]
+        methods.decreaseSets(movementName)
     }
 }
 

@@ -94,10 +94,10 @@ export default {
             const  isFoundInActiveWorkout  = workouts.state.activeWorkout.find(exercise => exercise.movement === movement)
             if (!isFoundInActiveWorkout) {
                 e.target.classList.toggle("selected")
-                return workouts.methods.addToWorkout(movement)
+                workouts.methods.addToWorkout(movement)
             } else {
                 e.target.classList.toggle("selected")
-                return workouts.methods.removeFromWorkout(movement)
+                workouts.methods.removeFromWorkout(movement)
             }
         }
 

@@ -77,7 +77,6 @@ export default {
             sets.appendChild(wrapperEl)
 
             workouts.methods.addNewSet(movementClass.value, movement)
-            workouts.methods.increaseSets(movement)
         }
 
         const deleteSet = (movement, numberSets) => {
@@ -87,7 +86,7 @@ export default {
                 el[0].parentNode.removeChild(el[0])
             }
 
-            workouts.methods.decreaseSets(movement, `${movementClass.value}`)
+            workouts.methods.deleteSet(`${movementClass.value}`, movement)
         }
 
         document.addEventListener('change', (e) => {
