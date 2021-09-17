@@ -1,5 +1,4 @@
 <template>
-    <button>Get Exercises</button>
     <Feed />
 </template>
 

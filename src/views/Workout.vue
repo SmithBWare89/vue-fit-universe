@@ -1,6 +1,8 @@
 <template>
-  <button @click.prevent="workouts.methods.openModal">Select Workouts</button>
-  <WorkoutModal />
+  <div>
+      <button class="select-workouts" @click.prevent="workouts.methods.openModal">Select Workouts</button>
+      <WorkoutModal />
+  </div>
 </template>
 
 <script>
@@ -39,6 +41,19 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.select-workouts {
+  margin: 0 auto !important;
+  font-size: 40px;
+  background-color: var(--white);
+  color: var(--munsell);
+  margin-top: 30px !important;
+  margin-left: 30px !important;
+}
 
+.select-workouts:hover,
+.select-workouts:focus {
+  background-color: var(--pewter);
+  color: var(--white);
+}
 </style>
