@@ -91,12 +91,12 @@ export default {
         // Add/Remove movement to activeWorkouts state
         const addMovement = (e) => {
             const movement = e.target.innerHTML
-            const  isFoundInActiveWorkout  = workouts.state.activeWorkout.find(exercise => exercise.movement === movement)
+            const isFoundInActiveWorkout = workouts.state.activeWorkout.find(exercise => exercise.movement === movement)
             if (!isFoundInActiveWorkout) {
-                e.target.classList.toggle("selected")
+                e.target.classList.remove("selected")
                 workouts.methods.addToWorkout(movement)
             } else {
-                e.target.classList.toggle("selected")
+                e.target.classList.add("selected")
                 workouts.methods.removeFromWorkout(movement)
             }
         }

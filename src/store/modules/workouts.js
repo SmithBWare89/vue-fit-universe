@@ -101,6 +101,7 @@ const methods = {
         findMovement.sets = {...findMovement.sets, [`${className}-rep`]: 0}
         findMovement.sets = {...findMovement.sets, [`${className}-weight`]: 0}
         methods.increaseSets(movementName)
+        console.log(findMovement.sets)
     },
     updateSet(className, value, movementName) {
         const findMovement = state.activeWorkout.find(exercise => exercise.movement === movementName)
@@ -111,6 +112,7 @@ const methods = {
         delete findMovement.sets[`${className}-rep`]
         delete findMovement.sets[`${className}-weight`]
         methods.decreaseSets(movementName)
+        console.log(findMovement.sets)
     }
 }
 

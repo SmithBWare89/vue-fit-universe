@@ -6,12 +6,10 @@
                     <h1 class="card-header">{{ workout.movement }}</h1>
                 </div>
                 <div id="sets-container">
-
+                    
                 </div>
-                <div>
-                    <button @click="addSet(workout.movement, workout.numberSets)" class="add-set">Add Set</button>
-                    <button @click="deleteSet(workout.movement, workout.numberSets)" class="delete-set">Delete Set</button>
-                </div>
+                    <button @click="addSet($event, workout.movement, workout.numberSets)" class="add-set">Add Set</button>
+                    <button @click="deleteSet($event, workout.movement, workout.numberSets)" class="delete-set">Delete Set</button>
             </div>
         </div>
     </div>
@@ -36,9 +34,12 @@ export default {
 
     // Click to add the set
     // Add button and two inputs to sets field
-        const addSet = (movement, numberSets) => {
+        const addSet = (e, movement, numberSets) => {
+            console.log(e.target.parentNode)
             const sets = document.getElementById("sets-container")
             movementClass.value = `${newMovement(movement)}-${numberSets}`
+            movementClass.value = movementClass.value.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')
+            console.log(movementClass.value)
 
             const wrapperEl = document.createElement("div")
             wrapperEl.setAttribute("class", "sets")
@@ -80,13 +81,20 @@ export default {
         }
 
         const deleteSet = (movement, numberSets) => {
-            const el = document.getElementsByClassName(`${newMovement(movement)}-${numberSets-1}`)
+            movementClass.value = `${newMovement(movement)}-${numberSets-1}`
+            movementClass.value = movementClass.value.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')
+
+            console.log(movementClass.value)
+
+            const el = document.getElementsByClassName(movementClass.value)
+
+            console.log(el)
             
             while (el.length > 0) {
                 el[0].parentNode.removeChild(el[0])
             }
 
-            workouts.methods.deleteSet(`${movementClass.value}`, movement)
+            workouts.methods.deleteSet(movementClass.value, movement)
         }
 
         document.addEventListener('change', (e) => {
