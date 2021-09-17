@@ -6,10 +6,12 @@
                     <h1 class="card-header">{{ workout.movement }}</h1>
                 </div>
                 <div id="sets-container">
-                    
+
                 </div>
+                <div>
                     <button @click="addSet($event, workout.movement, workout.numberSets)" class="add-set">Add Set</button>
                     <button @click="deleteSet($event, workout.movement, workout.numberSets)" class="delete-set">Delete Set</button>
+                </div>
             </div>
         </div>
     </div>
@@ -30,12 +32,11 @@ export default {
         }
         const { workouts } = store
 
-        const consoleLog = () => console.log('Hello')
-
     // Click to add the set
     // Add button and two inputs to sets field
         const addSet = (e, movement, numberSets) => {
             console.log(e.target.parentNode)
+
             const sets = document.getElementById("sets-container")
             movementClass.value = `${newMovement(movement)}-${numberSets}`
             movementClass.value = movementClass.value.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')
@@ -80,16 +81,12 @@ export default {
             workouts.methods.addNewSet(movementClass.value, movement)
         }
 
-        const deleteSet = (movement, numberSets) => {
+        const deleteSet = (e, movement, numberSets) => {
             movementClass.value = `${newMovement(movement)}-${numberSets-1}`
             movementClass.value = movementClass.value.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')
 
-            console.log(movementClass.value)
-
             const el = document.getElementsByClassName(movementClass.value)
 
-            console.log(el)
-            
             while (el.length > 0) {
                 el[0].parentNode.removeChild(el[0])
             }
@@ -106,7 +103,7 @@ export default {
             }
         })
 
-        return { workouts, sets, addSet, deleteSet, consoleLog, movementClass }
+        return { workouts, sets, addSet, deleteSet, movementClass }
     }
 }
 </script>

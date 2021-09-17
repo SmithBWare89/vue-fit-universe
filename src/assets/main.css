@@ -140,3 +140,13 @@ button {
 a {
     text-decoration: none;
 }
+
+@media screen and (max-width: 960px) {
+}
+
+@media screen and (max-width: 768px) {
+
+}
+
+@media screen and (max-width: 600px) {
+}
