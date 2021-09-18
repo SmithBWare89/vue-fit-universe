@@ -23,13 +23,7 @@
                 <!-- Map over selected option from header and print -->
                 <span v-for="exercise in selectedMovement" :key="exercise.id" :id="exercise.id">
                     <!-- Conditional - If workout already selected then add "Selected Class" -->
-                    <span v-if="workouts.state.activeWorkout.indexOf(exercise.name) > -1">
-                        <button class="selected" @click="addMovement">{{exercise.name}}</button>
-                    </span>
-                    <!-- ELSE -->
-                    <span v-else>
-                        <button @click="addMovement">{{exercise.name}}</button>
-                    </span>
+                    <button @click="addMovement">{{exercise.name}}</button>
                 </span>
             </div>
             <!-- Close Button -->
@@ -91,8 +85,8 @@ export default {
         // Add/Remove movement to activeWorkouts state
         const addMovement = (e) => {
             const movement = e.target.innerHTML
-            const isFoundInActiveWorkout = workouts.state.activeWorkout.find(exercise => exercise.movement === movement)
-            if (!isFoundInActiveWorkout) {
+
+            if (!Object.keys(workouts.state.activeWorkout).includes(movement)) {
                 e.target.classList.remove("selected")
                 workouts.methods.addToWorkout(movement)
             } else {

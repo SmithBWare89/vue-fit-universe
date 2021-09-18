@@ -13,7 +13,7 @@ const state = reactive({
     shoulders: [],
     core: [],
     modalDisplay: false,
-    activeWorkout: [],
+    activeWorkout: {},
     ongoingWorkout: true
 })
 
@@ -70,49 +70,47 @@ const methods = {
         }
     },
     addToWorkout(movement) {
-        state.activeWorkout.push({
-            movement,
+        state.activeWorkout = {...state.activeWorkout, [`${movement}`]: {
+            name: movement,
+            formattedName: `${movement.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')}`,
             numberSets: 0,
             sets: {}
-        })
+        }}
     },
     removeFromWorkout(movement) {
-        state.activeWorkout = state.activeWorkout.filter(exercise => exercise.movement !== movement)
+        delete state.activeWorkout[movement]
     },
     clearActiveWorkout() {
-        state.activeWorkout = []
+        state.activeWorkout = {}
     },
-    increaseSets(movement) {
-        state.activeWorkout.map(exercise => {
-            if (exercise.movement === movement) {
-                exercise.numberSets++
-            }
-        })
+    increaseSets(name) {
+        console.log(state.activeWorkout)
+        state.activeWorkout[name].numberSets++
+        console.log(state.activeWorkout[name].numberSets)
     },
-    decreaseSets(movement) {
-        state.activeWorkout.map((exercise, index, array) => {
-            if (exercise.movement === movement && exercise.numberSets > 0) {
-                exercise.numberSets--
-            }
-        })
+    decreaseSets(name) {
+        console.log(state.activeWorkout[name].numberSets)
+        if (state.activeWorkout[name].numberSets !== 0) {
+            state.activeWorkout[name].numberSets--
+        }
+        console.log(state.activeWorkout[movement].numberSets)
     },
-    addNewSet(className, movementName) {
-        const findMovement = state.activeWorkout.find(exercise => exercise.movement === movementName)
-        findMovement.sets = {...findMovement.sets, [`${className}-rep`]: 0}
-        findMovement.sets = {...findMovement.sets, [`${className}-weight`]: 0}
-        methods.increaseSets(movementName)
-        console.log(findMovement.sets)
+    addNewSet(className, name) {
+        state.activeWorkout[name].sets = { ...state.activeWorkout[name].sets, [`${className}-rep`]: 0}
+        state.activeWorkout[name].sets = { ...state.activeWorkout[name].sets, [`${className}-weight`]: 0}
+        methods.increaseSets(name)
     },
     updateSet(className, value, movementName) {
         const findMovement = state.activeWorkout.find(exercise => exercise.movement === movementName)
         findMovement.sets = {...findMovement.sets, [className]: value}
     },
-    deleteSet(className, movementName) {
-        const findMovement = state.activeWorkout.find(exercise => exercise.movement === movementName)
-        delete findMovement.sets[`${className}-rep`]
-        delete findMovement.sets[`${className}-weight`]
-        methods.decreaseSets(movementName)
-        console.log(findMovement.sets)
+    deleteSet(className, formattedName, name) {
+        console.log(state.activeWorkout)
+        console.log(className)
+        console.log(formattedName)
+        console.log(name)
+        console.log(state.activeWorkout[name].sets)
+        console.log(Object.keys(state.activeWorkout[name].sets))
     }
 }
 

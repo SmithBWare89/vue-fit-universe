@@ -1,16 +1,14 @@
 <template>
-    <div v-if="workouts.state.activeWorkout.length >= 1">
-        <div v-for="workout in workouts.state.activeWorkout" :key="workout.movement">
+    <div v-if="Object.keys(workouts.state.activeWorkout).length >= 1">
+        <div v-for="workout in workouts.state.activeWorkout" :key="workout">
             <div class="card">
+                {{ workout }}
                 <div>
-                    <h1 class="card-header">{{ workout.movement }}</h1>
+                    <h1 class="card-header">{{ workout.name }}</h1>
+                    <button @click="addSet($event, workout.formattedName, workout.name, workout.numberSets)" class="add-set" ref="addSetButton">Add Set</button>
+                    <button @click="deleteSet($event, workout.formattedName, workout.name, workout.numberSets)" class="delete-set">Delete Set</button>
                 </div>
                 <div id="sets-container">
-
-                </div>
-                <div>
-                    <button @click="addSet($event, workout.movement, workout.numberSets)" class="add-set">Add Set</button>
-                    <button @click="deleteSet($event, workout.movement, workout.numberSets)" class="delete-set">Delete Set</button>
                 </div>
             </div>
         </div>
@@ -26,21 +24,14 @@ export default {
         const store = inject('store')
         const sets = ref(null)
         const movementClass = ref(null)
-        const newMovement = movement => {
-           return movement.replace(' ', '-').replace('/', '-')
-            
-        }
         const { workouts } = store
 
     // Click to add the set
     // Add button and two inputs to sets field
-        const addSet = (e, movement, numberSets) => {
-            console.log(e.target.parentNode)
+        const addSet = (e, formattedName, name, numberSets) => {
 
             const sets = document.getElementById("sets-container")
-            movementClass.value = `${newMovement(movement)}-${numberSets}`
-            movementClass.value = movementClass.value.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')
-            console.log(movementClass.value)
+            movementClass.value = `${formattedName}-${numberSets}`
 
             const wrapperEl = document.createElement("div")
             wrapperEl.setAttribute("class", "sets")
@@ -56,7 +47,7 @@ export default {
             const setInput = document.createElement("input")
             setInput.setAttribute("class", movementClass.value)
             setInput.setAttribute("class", `${movementClass.value}-rep`)
-            setInput.setAttribute("name", movement)
+            setInput.setAttribute("name", formattedName)
             setInput.setAttribute("type", "number")
             setInput.setAttribute("min", 1)
             setInput.setAttribute("max", 100)
@@ -68,7 +59,7 @@ export default {
             const repsInput = document.createElement("input")
             repsInput.setAttribute("class", movementClass.value)
             repsInput.setAttribute("class", `${movementClass.value}-weight`)
-            repsInput.setAttribute("name", movement)
+            repsInput.setAttribute("name", formattedName)
             repsInput.setAttribute("type", "number")
             repsInput.setAttribute("min", 2)
             repsInput.setAttribute("max", 500)
@@ -78,12 +69,11 @@ export default {
 
             sets.appendChild(wrapperEl)
 
-            workouts.methods.addNewSet(movementClass.value, movement)
+            workouts.methods.addNewSet(movementClass.value, name)
         }
 
-        const deleteSet = (e, movement, numberSets) => {
-            movementClass.value = `${newMovement(movement)}-${numberSets-1}`
-            movementClass.value = movementClass.value.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')
+        const deleteSet = (e, formattedName, name, numberSets) => {
+            movementClass.value = `${formattedName}-${numberSets}`
 
             const el = document.getElementsByClassName(movementClass.value)
 
@@ -91,11 +81,11 @@ export default {
                 el[0].parentNode.removeChild(el[0])
             }
 
-            workouts.methods.deleteSet(movementClass.value, movement)
+            workouts.methods.deleteSet(movementClass.value, formattedName, name)
         }
 
         document.addEventListener('change', (e) => {
-            // See if the className matches for the movement and if so pass it and its value to update
+            // See if the className matches for the formattedName and if so pass it and its value to update
             if (e.target.classList[0] === `${movementClass.value}-weight`) {
                 workouts.methods.updateSet(`${movementClass.value}-weight`, e.target.value, e.target.getAttribute("name"))
             } else if(e.target.classList[0] === `${movementClass.value}-rep`) {
