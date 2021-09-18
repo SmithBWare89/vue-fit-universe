@@ -1,54 +1,111 @@
 <template>
-    <div v-if="workouts.state.modalDisplay" id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h2 class="section-name">Select Exercise Focus</h2>
-                <div class="workout-select">
-                    <button @click="handleSelection" id="All">All</button>
-                    <button @click="handleSelection" id="Arms">Arms</button>
-                    <button @click="handleSelection" id="Back">Back</button>
-                    <button @click="handleSelection" id="Chest">Chest</button>
-                    <button @click="handleSelection" id="Core">Core</button>
-                    <button @click="handleSelection" id="Legs">Legs</button>
-                    <button @click="handleSelection" id="Neck">Neck</button>
-                    <button @click="handleSelection" id="Shoulders">Shoulders</button>
-                </div>
-            </div>
-            <!-- Workout Selection -->
-            <h2 class="section-name">Select Movement</h2>
-            <div class="exercise-list">
-                <!-- Map over selected option from header and print -->
+  <n-modal
+    :show="modal.state.openModal"
+    :mask-closable="true"
+    title="Make Your Selection"
+    class="workout-modal"
+  >
+    <n-space vertical> 
+        <n-layout>
+            <n-space vertical class="modal-control">
+                <h1 class="modal-header">Select A Body Part</h1>
+                <n-space>
+                    <button class="save" @click="closeModal">Save / Exit</button>
+                    <button class="clear" @click="clearWorkout">Clear Workout</button>
+                </n-space>
+            </n-space>
+        </n-layout>
+        <n-layout has-sider>
+            <n-layout-sider
+                bordered
+                collapse-mode="width"
+                :collapsed-width="25"
+                :width="250"
+                :collapsed="collapsed"
+                class="menu-sider"
+                show-trigger
+                @collapse="collapsed = true"
+                @expand="collapsed = false"
+            >
+            <n-menu 
+                :collapsed="collapsed"
+                :collapsed-width="100"
+                :options="menuOptions"
+                :value="activeKey"
+                @update:value="handleSelection"
+            />
+            </n-layout-sider>
+            <n-layout v-if="selectedMovement.length > 0" class="workout-display">
                 <span v-for="exercise in selectedMovement" :key="exercise.id" :id="exercise.id">
-                    <!-- Conditional - If workout already selected then add "Selected Class" -->
-                    <button @click="addMovement">{{exercise.name}}</button>
+                    <button @click="addMovement" class="movement-button">{{ exercise.name }}</button>
                 </span>
-            </div>
-            <!-- Close Button -->
-            <div>
-                <button class="close" @click="workouts.methods.closeModal">Save/Exit</button>
-                <button class="clear-workout" @click="workouts.methods.clearActiveWorkout">Clear Workout</button>
-            </div>
-        </div>
-    </div>
+            </n-layout>
+        </n-layout>
+    </n-space>
+
+  </n-modal>
 </template>
 
 <script>
-import { inject, ref, watch } from '@vue/runtime-core'
+import { NSpace, NSwitch, NLayout, NLayoutSider, NMenu, NButton, NModal } from 'naive-ui'
+import { ref } from '@vue/reactivity'
+import { inject } from '@vue/runtime-core'
 export default {
     name: 'WorkoutModal',
+    components: { NSpace, NSwitch, NLayout, NLayoutSider, NMenu, NButton, NModal },
     setup() {
-        const store = inject('store')
-        const selectedMovement = ref({})
-        const storeMovement = ref({})
-        const { workouts } = store
+        // Variables
+        const { modal, workouts } = inject('store')
+        const collapsed = ref(false)
+        const activeKey = ref(null)
+        const selectedMovement = ref({})        
+    
+        // Menu Options
+        const menuOptions = [
+            {
+                label: 'All',
+                key: 'All'            
+            },
+            {
+                label: 'Arms',
+                key: 'Arms'            
+            },
+            {
+                label: 'Back',
+                key: 'Back'            
+            },
+            {
+                label: 'Chest',
+                key: 'Chest'            
+            },
+            {
+                label: 'Core',
+                key: 'Core'            
+            },
+            {
+                label: 'Legs',
+                key: 'Legs'            
+            },
+            {
+                label: 'Neck',
+                key: 'Neck'            
+            },
+            {
+                label: 'Shoulders',
+                key: 'Shoulders'            
+            },
+        ]
 
-        // Switch operator to return the movements requested
-        const handleSelection = (e) => {
-            const selected = e.target.innerHTML
-             switch (selected) {
+        // Functions
+        const closeModal = () => {
+            modal.methods.closeModal()
+        }
+        const clearWorkout = () => {
+            workouts.methods.clearActiveWorkout()
+        }
+
+        const handleSelection = (key) => {
+            switch (key) {
                  case "All":
                     selectedMovement.value = workouts.state.exercises
                     break;
@@ -79,10 +136,9 @@ export default {
                 default:
                     selectedMovement.value = workouts.state.exercises
                     break;
-             }
+            }
         }
 
-        // Add/Remove movement to activeWorkouts state
         const addMovement = (e) => {
             const movement = e.target.innerHTML
 
@@ -95,137 +151,130 @@ export default {
             }
         }
 
-        watch(selectedMovement.value, () => {
-            storeMovement.value = selectedMovement.value
-        })
-
-        return { workouts, handleSelection, selectedMovement, addMovement, storeMovement }
+        return { handleSelection, addMovement, selectedMovement, collapsed, menuOptions, modal, closeModal, clearWorkout, activeKey, handleSelection }
     }
 }
 </script>
 
-<style scoped>
-.modal {
-  position: fixed; /* Stay in place */
-  z-index: 1000; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
+<style>
+    .workout-modal {
+        width: 800px;
+    }
 
-.modal-header {
-    display: flex;
-    flex-direction: column;
-}
+    .workout-display {
+        max-height: 400px;
+        margin-left: 30px;
+        margin-right: 30px;
+        display: flex;
+        flex-direction: column !important;
+        flex-wrap: nowrap;
+        margin-top: 15px;
+        font-family: 'Fira Sans', sans-serif;
+        overflow: auto;
+    }
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-}
+    /* .n-layout .n-layout-scroll-container {
+        overflow-x: hidden;
+    } */
 
-.close {
-    background: var(--green);
-    color: var(--white);
-    font-weight: bold;
-}
+    .modal-header {
+        font-family: 'Fira Sans', sans-serif;
+        margin-left: 5px;
+        font-size: 35px;
+        margin-bottom: 0px;
+        margin-right: 5px;
+        margin-top: 0px;
+    }
 
-.close:hover,
-.close:focus {
-    color: var(--green);
-    background: var(--white);
-    text-decoration: none;
-    cursor: pointer;
-}
+    .movement-button {
+        width: 100%;
+        font-size: 20px;
+    }
 
-.workout-select {
-    display: flex;
-    justify-content: flex-start;
-}
+    .movement-button:hover {
+        cursor: pointer;
+        background-color: var(--white);
+        color: var(--munsell);
+    }
 
-.exercise-list {
-    overflow: auto;
-    max-height: 250px !important;
-    display: grid;
-    /* flex-direction: column;
-    justify-content: space-between;
-    justify-self: left; */
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr 1fr;
-    margin-bottom: 20px;
-}
+    .modal-control {
+        margin-top: 10px;
+        padding: 10px;
+    }
 
-h2 {
-    margin-bottom: 2px;
-}
+    .save:hover, .clear:hover {
+        background-color: var(--white);
+        color: var(--munsell);
+        cursor: pointer;
+    }
 
-button {
-    margin-right: 5px;
-    font-family: 'Fira Sans', sans-serif;
-}
+    .selected {
+        background: var(--white);
+        color: var(--munsell);
+    }
 
-button:hover,
-button:focus {
-    color: var(--munsell);
-    background: var(--white);
-  text-decoration: none;
-  cursor: pointer;
-}
+    /* Sidebar Menu Control */
+    .n-layout-sider {
+        font-family: 'Fira Sans', sans-serif;
+        font-size: 30px !important;
+    }
 
-.exercise-list::-webkit-scrollbar {
-  display: none;
-}
+    /* Menu Sider Name List */
+    .n-menu .n-menu-item-content:not(.n-menu-item-content--disabled):hover .n-menu-item-content-header {
+        color: var(--white);
+    }
 
-.selected {
-    background: var(--white);
-    color: var(--munsell);
-}
+    /* Button Font-Size */
+    .n-menu-item-content {
+        font-size: 20px;
+    }
 
+    /* Save / Clear Modal Buttons */
+    .save, .clear {
+        background-color: var(--munsell);
+        border-radius: 10px;
+    }
 
-.section-name {
-    font-family: 'Fira Sans', sans-serif;
-    font-size: 30px;
-    border-bottom: 2px solid var(--munsell);
-    margin-bottom: 10px;
-}
-
-.clear-workout {
-    background-color: var(--red);
-}
-
-.clear-workout:hover,
-.clear-workout:focus {
-    background-color: var(--white);
-    color: var(--red);
-}
+    /* Sidebar Menu Item Hover */
+    .n-menu-item-content:hover {
+        background-color: var(--munsell);
+    }
 
 @media screen and (min-width: 600px) and (max-width: 900px) {
-    .workout-select {
-        flex-wrap: wrap;
+    .movement-button {
+        width: 75%;
+        font-size: 20px;
     }
 
-    .section-name {
-        font-size: 25px;
-    }
-
-    .exercise-list {
-        grid-template-columns: 1fr 1fr;
+    .workout-display {
+        margin-left: 20px;
+        margin-right: 15px;
+        width: 400px;
     }
 }
 
 @media screen and (min-width: 300px) and (max-width: 599px)  {
-    .exercise-list {
-        grid-template-columns: 1fr;
+    .workout-display {
+        margin-left: 15px;
+        margin-right: 10px;
+        width: 400px;
     }
 
-    .workout-select {
-        flex-wrap: wrap;
+    .n-layout .n-layout--static-positioned .workout-display {
+        width: 300px !important;
+    }
+
+    .movement-button {
+        width: 190px;
+        font-size: 18px !important;
+    }
+
+    .selected {
+        width: 200px !important;
+    }
+
+    .n-layout-sider.n-layout-sider--bordered  {
+        width: 150px !important;
     }
 }
 </style>

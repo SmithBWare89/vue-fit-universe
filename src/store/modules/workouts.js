@@ -53,22 +53,6 @@ const methods = {
                 state.cardio = state.exercises.filter(exercise => exercise.bodyPart === 'cardio').sort()
         }
     },
-    openModal() {
-        state.modalDisplay = true
-        if(state.activeWorkout.length >= 1) {
-            state.ongoingWorkout = true
-        } else {
-            state.ongoingWorkout = false
-        }
-    },
-    closeModal() {
-        state.modalDisplay = false
-        if(state.activeWorkout.length >= 1) {
-            state.ongoingWorkout = true
-        } else {
-            state.ongoingWorkout = false
-        }
-    },
     addToWorkout(movement) {
         state.activeWorkout = {...state.activeWorkout, [`${movement}`]: {
             name: movement,

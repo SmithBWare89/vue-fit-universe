@@ -1,20 +1,21 @@
 <template>
-    <button class="select-workouts" @click.prevent="workouts.methods.openModal">Select Workouts</button>
+    <button class="select-workouts" @click.prevent="modal.methods.openModal">Select Workouts</button>
+    <n-button @click.prevent="modal.methods.openModal">Select Workouts</n-button>
     <ActiveWorkout />
     <WorkoutModal />
 </template>
 
 <script>
 import { inject, onMounted} from '@vue/runtime-core'
-import WorkoutModal from '../components/WorkoutModal.vue'
 import ActiveWorkout from '../components/ActiveWorkout.vue'
+import { NButton } from 'naive-ui'
+import WorkoutModal from '../components/WorkoutModal.vue'
 
 export default {
     name: 'Workout',
-    components: {WorkoutModal, ActiveWorkout},
+    components: { WorkoutModal, ActiveWorkout, NButton },
     setup() {
-      const store = inject('store')
-      const { workouts } = store
+      const { workouts, modal } = inject('store')
       
       onMounted(async () => {
         if(!workouts.state.exercises.length) {
@@ -36,7 +37,7 @@ export default {
         console.log(workouts.state.modalDisplay)
       }
 
-      return { workouts, handleModalDisplay }
+      return { modal, workouts, handleModalDisplay }
     }
 }
 </script>
