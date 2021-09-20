@@ -1,4 +1,4 @@
-import { startOfMinute, startOfQuarter } from 'date-fns'
+import { startOfMinute, startOfQuarter, startOfSecond } from 'date-fns'
 import { reactive, readonly } from 'vue'
 
 const state = reactive({
@@ -84,7 +84,7 @@ const methods = {
     },
     decreaseSets(formattedName) {
         state.activeWorkout.map(workout => {
-            if (workout.formattedName === formattedName) {
+            if (workout.formattedName === formattedName && workout.numberSets > 0) {
                 workout.numberSets--
             }
         })
@@ -116,8 +116,10 @@ const methods = {
         })
     },
     deleteSet(formattedName, repName, weightName) {
-        state.activeWorkout.map(workout => {
-            if (workout.formattedName === formattedName) {
+        state.activeWorkout.map((workout, index) => {
+            if (workout.numberSets === 0) {
+                state.activeWorkout = state.activeWorkout.filter(name => name.formattedName !== formattedName)
+            } else {
                 delete workout.sets?.[`${repName}`]
                 delete workout.sets?.[`${weightName}`]
             }

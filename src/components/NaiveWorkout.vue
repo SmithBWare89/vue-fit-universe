@@ -1,5 +1,5 @@
 <template>
-    <div v-if="Object.keys(workouts.state.activeWorkout).length >= 1">
+    <div v-if="Object.keys(workouts.state.activeWorkout).length >= 1" id="naive-workout">
         <n-grid :x-gap="12" :y-gap="8" :cols="1">
             <n-grid-item v-for="workout in workouts.state.activeWorkout" :key="workout.formattedName">
                 <n-card :title="workout.name" size="large">
@@ -97,6 +97,9 @@ export default {
 </script>
 
 <style>
+    #naive-workout {
+        margin: 0 auto;
+    }
     .n-card > .n-card-header {
         font-size: 18px;
     }

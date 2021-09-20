@@ -1,21 +1,22 @@
 <template>
-    <button class="select-workouts" @click.prevent="modal.methods.openModal">Select Workouts</button>
-    <n-button @click.prevent="modal.methods.openModal">Select Workouts</n-button>
+  <n-space vertical align="center" class="workout">
+      <button class="select-workouts" @click.prevent="modal.methods.openModal">Select Workouts</button>
     <!-- <ActiveWorkout /> -->
     <WorkoutModal />
     <NaiveWorkout />
+  </n-space>
 </template>
 
 <script>
 import { inject, onMounted} from '@vue/runtime-core'
 import ActiveWorkout from '../components/ActiveWorkout.vue'
-import { NButton } from 'naive-ui'
+import { NSpace } from 'naive-ui'
 import WorkoutModal from '../components/WorkoutModal.vue'
 import NaiveWorkout from '../components/NaiveWorkout.vue'
 
 export default {
     name: 'Workout',
-    components: { WorkoutModal, ActiveWorkout, NButton, NaiveWorkout },
+    components: { WorkoutModal, ActiveWorkout, NSpace, NaiveWorkout },
     setup() {
       const { workouts, modal } = inject('store')
       
@@ -45,8 +46,13 @@ export default {
 </script>
 
 <style scoped>
+.workout {
+  margin: 0 auto;
+  width: 100%;
+  scroll-behavior: smooth;
+}
+
 .select-workouts {
-  margin: 0 auto !important;
   font-size: 40px;
   background-color: var(--white);
   color: var(--munsell);
