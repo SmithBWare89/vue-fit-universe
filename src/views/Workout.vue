@@ -1,8 +1,9 @@
 <template>
     <button class="select-workouts" @click.prevent="modal.methods.openModal">Select Workouts</button>
     <n-button @click.prevent="modal.methods.openModal">Select Workouts</n-button>
-    <ActiveWorkout />
+    <!-- <ActiveWorkout /> -->
     <WorkoutModal />
+    <NaiveWorkout />
 </template>
 
 <script>
@@ -10,10 +11,11 @@ import { inject, onMounted} from '@vue/runtime-core'
 import ActiveWorkout from '../components/ActiveWorkout.vue'
 import { NButton } from 'naive-ui'
 import WorkoutModal from '../components/WorkoutModal.vue'
+import NaiveWorkout from '../components/NaiveWorkout.vue'
 
 export default {
     name: 'Workout',
-    components: { WorkoutModal, ActiveWorkout, NButton },
+    components: { WorkoutModal, ActiveWorkout, NButton, NaiveWorkout },
     setup() {
       const { workouts, modal } = inject('store')
       

@@ -13,7 +13,7 @@ const state = reactive({
     shoulders: [],
     core: [],
     modalDisplay: false,
-    activeWorkout: {},
+    activeWorkout: [],
     ongoingWorkout: true
 })
 
@@ -54,48 +54,72 @@ const methods = {
         }
     },
     addToWorkout(movement) {
-        state.activeWorkout = {...state.activeWorkout, [`${movement}`]: {
+        const formattedName = movement.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')
+
+        state.activeWorkout.push({
             name: movement,
-            formattedName: `${movement.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')}`,
-            numberSets: 0,
+            formattedName: formattedName,
+            numberSets: 1,
             sets: {}
-        }}
-    },
-    removeFromWorkout(movement) {
-        delete state.activeWorkout[movement]
+        })
+        
+        state.activeWorkout.map(workout => {
+            if(workout.name === movement) {
+                const repName = `${workout.formattedName}-${workout.numberSets}-rep`
+                const weightName = `${workout.formattedName}-${workout.numberSets}-weight`
+
+                methods.addNewSet(repName, weightName, formattedName)
+            }
+        })
     },
     clearActiveWorkout() {
-        state.activeWorkout = {}
+        state.activeWorkout = []
     },
-    increaseSets(name) {
-        console.log(state.activeWorkout)
-        state.activeWorkout[name].numberSets++
-        console.log(state.activeWorkout[name].numberSets)
+    increaseSets(formattedName) {
+        state.activeWorkout.map(workout => {
+            if (workout.formattedName === formattedName) {
+                workout.numberSets++
+            }
+        })
     },
-    decreaseSets(name) {
-        console.log(state.activeWorkout[name].numberSets)
-        if (state.activeWorkout[name].numberSets !== 0) {
-            state.activeWorkout[name].numberSets--
-        }
-        console.log(state.activeWorkout[movement].numberSets)
+    decreaseSets(formattedName) {
+        state.activeWorkout.map(workout => {
+            if (workout.formattedName === formattedName) {
+                workout.numberSets--
+            }
+        })
     },
-    addNewSet(className, name) {
-        state.activeWorkout[name].sets = { ...state.activeWorkout[name].sets, [`${className}-rep`]: 0}
-        state.activeWorkout[name].sets = { ...state.activeWorkout[name].sets, [`${className}-weight`]: 0}
-        methods.increaseSets(name)
+    addNewSet(repName, weightName, formattedName) {
+        state.activeWorkout.map(workout => {
+            if (workout.formattedName === formattedName) {
+                workout.sets = { ...workout.sets, [`${repName}`]:  0}
+                workout.sets = { ...workout.sets, [`${weightName}`]: 0}
+            }
+        })
     },
-    updateSet(className, value, movementName) {
-        const findMovement = state.activeWorkout.find(exercise => exercise.movement === movementName)
-        findMovement.sets = {...findMovement.sets, [className]: value}
+    updateReps(value, formattedName, repName) {
+        state.activeWorkout.map(workout => {
+            if (workout.formattedName === formattedName) {
+                workout.sets = {...workout.sets, [`${repName}`]: value}
+            }
+        })
     },
-    deleteSet(className, formattedName, name) {
-        console.log(state.activeWorkout)
-        console.log(className)
-        console.log(formattedName)
-        console.log(name)
-        console.log(state.activeWorkout[name].sets)
-        console.log(Object.keys(state.activeWorkout[name].sets))
-    }
+    updateWeight(value, formattedName, weightName) {
+        state.activeWorkout.map(workout => {
+            if (workout.formattedName === formattedName) {
+                workout.sets = {...workout.sets, [`${weightName}`]: value}
+            }
+        })
+    },
+    deleteSet(formattedName, repName, weightName) {
+        state.activeWorkout.map(workout => {
+            if (workout.formattedName === formattedName) {
+                delete workout.sets?.[`${repName}`]
+                delete workout.sets?.[`${weightName}`]
+            }
+        })
+    },
+
 }
 
 export default { state: readonly(state), methods}

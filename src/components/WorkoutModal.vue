@@ -42,17 +42,16 @@
             </n-layout>
         </n-layout>
     </n-space>
-
   </n-modal>
 </template>
 
 <script>
-import { NSpace, NSwitch, NLayout, NLayoutSider, NMenu, NButton, NModal } from 'naive-ui'
+import { NSpace, NSwitch, NLayout, NLayoutSider, NMenu, NButton, NModal, NCard, NTabs, NTabPane } from 'naive-ui'
 import { ref } from '@vue/reactivity'
 import { inject } from '@vue/runtime-core'
 export default {
     name: 'WorkoutModal',
-    components: { NSpace, NSwitch, NLayout, NLayoutSider, NMenu, NButton, NModal },
+    components: { NSpace, NSwitch, NLayout, NLayoutSider, NMenu, NButton, NModal, NCard, NTabs, NTabPane },
     setup() {
         // Variables
         const { modal, workouts } = inject('store')
