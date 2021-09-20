@@ -38,7 +38,7 @@
 
 <script>
 import { NSpace, NCard, NGrid, NGridItem, NInputNumber, NDynamicInput } from 'naive-ui'
-import { inject, ref, watchEffect } from '@vue/runtime-core'
+import { inject, ref } from '@vue/runtime-core'
 
 export default {
     name: 'NaiveWorkout',
@@ -47,7 +47,6 @@ export default {
         const { workouts } = inject('store')
         const repName = ref('')
         const weightName = ref('')
-        const value = ref({ key: 0, value: 0})
         const repValue = ref(0)
 
         const addSet = async (e, formattedName, numberSets) => {
@@ -91,7 +90,7 @@ export default {
 
 
 
-        return { workouts, addSet, handleRepUpdate, handleWeightUpdate, deleteSet, repValue  }
+        return { workouts, addSet, handleRepUpdate, handleWeightUpdate, deleteSet  }
     }
 }
 </script>

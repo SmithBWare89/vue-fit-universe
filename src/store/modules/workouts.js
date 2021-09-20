@@ -34,34 +34,6 @@ const methods = {
             state.error = err.message
         }
     },
-    // setExerciseState(bodyPart) {
-    //     switch (bodyPart) {
-    //         case 'back':
-    //             state.back = state.exercises.filter(exercise => exercise.bodyPart === 'back').sort()
-    //             break;
-    //         case 'chest':
-    //             state.chest = state.exercises.filter(exercise => exercise.bodyPart === 'chest').sort()
-    //             break;
-    //         case 'legs':
-    //             state.legs = state.exercises.filter(exercise => exercise.bodyPart === 'lower legs' || exercise.bodyPart === 'upper legs').sort() 
-    //             break;
-    //         case 'arms':
-    //             state.arms = state.exercises.filter(exercise => exercise.bodyPart === 'lower arms' || exercise.bodyPart === 'upper arms').sort()
-    //             break;
-    //         case 'neck':
-    //             state.neck = state.exercises.filter(exercise => exercise.bodyPart === 'neck').sort() 
-    //             break;
-    //         case 'shoulders':
-    //             state.shoulders = state.exercises.filter(exercise => exercise.bodyPart === 'shoulders').sort() 
-    //             break;
-    //         case 'core':
-    //             state.core = state.exercises.filter(exercise => exercise.bodyPart === 'waist').sort()
-    //             break;
-    //         case 'cardio':
-    //             state.cardio = state.exercises.filter(exercise => exercise.bodyPart === 'cardio').sort()
-    //             break;
-    //     }
-    // },
     addToWorkout(movement) {
         const formattedName = movement.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')
 
