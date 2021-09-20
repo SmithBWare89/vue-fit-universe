@@ -13,14 +13,14 @@
                         <n-space :inline="true" align="center">
                             <p>Set {{n}}</p>
                             <n-input-number 
-                                @update:value="(value) => handleRepUpdate(value, workout.formattedName, workout.numberSets)"
+                                @update:value="(value) => handleRepUpdate(value, workout.formattedName, n)"
                                 size="small" 
                                 placeholder="Reps" 
                                 :min="1" 
                                 :max="100" 
                             />
                             <n-input-number 
-                                @update:value="(value) => handleWeightUpdate(value, workout.formattedName, workout.numberSets)" 
+                                @update:value="(value) => handleWeightUpdate(value, workout.formattedName, n)" 
                                 size="small" 
                                 placeholder="Weight" 
                                 :min="2" 
@@ -50,22 +50,24 @@ export default {
         const value = ref({ key: 0, value: 0})
         const repValue = ref(0)
 
-        const addSet = (e, formattedName, numberSets) => {
+        const addSet = async (e, formattedName, numberSets) => {
             // Increase the number of sets
             workouts.methods.increaseSets(formattedName)
+            console.log(numberSets)
 
-            const updatedNumberSets = workouts.state.activeWorkout.map(workout => {
+            const updatedNumberSets = await workouts.state.activeWorkout.map(workout => {
                 if (workout.formattedName === formattedName) {
+                    console.log(workout.numberSets)
                     return workout.numberSets
                 }
-            })
+            }).filter(result => result !== undefined)
             
             // Create variables to format the sets object name
             repName.value = `${formattedName}-${updatedNumberSets}-rep`
             weightName.value = `${formattedName}-${updatedNumberSets}-weight`
 
             // Add new set to the sets objects with correct numberSets
-            workouts.methods.addNewSet(repName.value, weightName.value, formattedName)
+            await workouts.methods.addNewSet(repName.value, weightName.value, formattedName)
         }
 
         const deleteSet = (e, formattedName, numberSets) => {

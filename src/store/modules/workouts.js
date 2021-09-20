@@ -91,6 +91,7 @@ const methods = {
     },
     addNewSet(repName, weightName, formattedName) {
         state.activeWorkout.map(workout => {
+            console.log(repName)
             if (workout.formattedName === formattedName) {
                 workout.sets = { ...workout.sets, [`${repName}`]:  0}
                 workout.sets = { ...workout.sets, [`${weightName}`]: 0}
@@ -98,9 +99,12 @@ const methods = {
         })
     },
     updateReps(value, formattedName, repName) {
+        console.log(formattedName)
         state.activeWorkout.map(workout => {
             if (workout.formattedName === formattedName) {
+                console.log(workout)
                 workout.sets = {...workout.sets, [`${repName}`]: value}
+                console.log(workout.sets)
             }
         })
     },

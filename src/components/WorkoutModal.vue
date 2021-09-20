@@ -142,10 +142,10 @@ export default {
             const movement = e.target.innerHTML
 
             if (!Object.keys(workouts.state.activeWorkout).includes(movement)) {
-                e.target.classList.remove("selected")
+                e.target.classList.add("selected")
                 workouts.methods.addToWorkout(movement)
             } else {
-                e.target.classList.add("selected")
+                e.target.classList.remove("selected")
                 workouts.methods.removeFromWorkout(movement)
             }
         }
