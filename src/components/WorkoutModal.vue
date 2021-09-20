@@ -62,12 +62,12 @@ export default {
         // Menu Options
         const menuOptions = [
             {
-                label: 'All',
-                key: 'All'            
+                label: 'Ankles/Calves',
+                key: 'Ankles/Calves'            
             },
             {
-                label: 'Arms',
-                key: 'Arms'            
+                label: 'Bicep/Tricep/Shoulder',
+                key: 'Bicep/Tricep/Shoulder'            
             },
             {
                 label: 'Back',
@@ -78,12 +78,16 @@ export default {
                 key: 'Chest'            
             },
             {
+                label: 'Cardio',
+                key: 'Cardio'            
+            },
+            {
                 label: 'Core',
                 key: 'Core'            
             },
             {
-                label: 'Legs',
-                key: 'Legs'            
+                label: 'Quad/Hamstring/Glutes',
+                key: 'Quad/Hamstring/Glutes'            
             },
             {
                 label: 'Neck',
@@ -92,6 +96,10 @@ export default {
             {
                 label: 'Shoulders',
                 key: 'Shoulders'            
+            },
+            {
+                label: 'Wrist/Forearm',
+                key: 'Wrist/Forearm'            
             },
         ]
 
@@ -103,37 +111,40 @@ export default {
             workouts.methods.clearActiveWorkout()
         }
 
-        const handleSelection = (key) => {
+        const handleSelection = async (key) => {
             switch (key) {
-                 case "All":
-                    selectedMovement.value = workouts.state.exercises
-                    break;
                  case "Back":
-                    selectedMovement.value = workouts.state.back
+                    selectedMovement.value = await workouts.methods.getExercises('back')
                     break;
                  case "Cardio":
-                    selectedMovement.value = workouts.state.cardio
+                    selectedMovement.value = await workouts.methods.getExercises('cardio')
                     break;
                  case "Chest":
-                    selectedMovement.value = workouts.state.chest
+                    selectedMovement.value = await workouts.methods.getExercises('chest')
                     break;
-                 case "Legs":
-                    selectedMovement.value = workouts.state.legs
+                 case "Quad/Hamstring/Glutes":
+                    selectedMovement.value = await workouts.methods.getExercises('upper%20legs')
                     break;
-                 case "Arms":
-                    selectedMovement.value = workouts.state.arms
+                 case "Ankles/Calves":
+                    selectedMovement.value = await workouts.methods.getExercises('lower%20legs')
+                    break;
+                 case "Bicep/Tricep/Shoulder":
+                    selectedMovement.value = await workouts.methods.getExercises('upper%20arms')
+                    break;
+                 case "Wrist/Forearm":
+                    selectedMovement.value = await workouts.methods.getExercises('lower%20arms')
                     break;
                  case "Neck":
-                    selectedMovement.value = workouts.state.neck
+                    selectedMovement.value = await workouts.methods.getExercises('back')
                     break;
                  case "Shoulders":
-                    selectedMovement.value = workouts.state.shoulders
+                    selectedMovement.value = await workouts.methods.getExercises('shoulders')
                     break;
                  case "Core":
-                    selectedMovement.value = workouts.state.core
+                    selectedMovement.value = await workouts.methods.getExercises('waist')
                     break;
                 default:
-                    selectedMovement.value = workouts.state.exercises
+                    selectedMovement.value = await workouts.methods.getExercises('back')
                     break;
             }
         }
@@ -161,7 +172,7 @@ export default {
     }
 
     .workout-display {
-        max-height: 400px;
+        max-height: 450px;
         margin-left: 30px;
         margin-right: 30px;
         display: flex;
@@ -187,7 +198,7 @@ export default {
 
     .movement-button {
         width: 100%;
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .movement-button:hover {
@@ -215,7 +226,6 @@ export default {
     /* Sidebar Menu Control */
     .n-layout-sider {
         font-family: 'Fira Sans', sans-serif;
-        font-size: 30px !important;
     }
 
     /* Menu Sider Name List */
@@ -225,7 +235,7 @@ export default {
 
     /* Button Font-Size */
     .n-menu-item-content {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     /* Save / Clear Modal Buttons */

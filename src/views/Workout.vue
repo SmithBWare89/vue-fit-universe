@@ -13,27 +13,28 @@ import ActiveWorkout from '../components/ActiveWorkout.vue'
 import { NSpace } from 'naive-ui'
 import WorkoutModal from '../components/WorkoutModal.vue'
 import NaiveWorkout from '../components/NaiveWorkout.vue'
+import useCollection from '../composables/useCollection'
 
 export default {
     name: 'Workout',
     components: { WorkoutModal, ActiveWorkout, NSpace, NaiveWorkout },
     setup() {
       const { workouts, modal } = inject('store')
+      const { error, addDoc, isPending } = useCollection()
       
-      onMounted(async () => {
-        if(!workouts.state.exercises.length) {
-          await workouts.methods.getExercises()
-          workouts.methods.setExerciseState('back')
-          workouts.methods.setExerciseState('shoulders')
-          workouts.methods.setExerciseState('neck')
-          workouts.methods.setExerciseState('arms')
-          workouts.methods.setExerciseState('legs')
-          workouts.methods.setExerciseState('chest')
-          workouts.methods.setExerciseState('cardio')
-          workouts.methods.setExerciseState('core')
-          workouts.methods.setExerciseState('back')
-        }
-      })
+      // onMounted(async () => {
+      //   if(!workouts.state.exercises.length) {
+      //     await addToCollection('back', )
+      //     workouts.methods.setExerciseState('back')
+      //     workouts.methods.setExerciseState('shoulders')
+      //     workouts.methods.setExerciseState('neck')
+      //     workouts.methods.setExerciseState('arms')
+      //     workouts.methods.setExerciseState('legs')
+      //     workouts.methods.setExerciseState('chest')
+      //     workouts.methods.setExerciseState('cardio')
+      //     workouts.methods.setExerciseState('core')
+      //   }
+      // })
 
       const handleModalDisplay = () => {
         workouts.methods.setModalDisplay(true)

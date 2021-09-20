@@ -18,9 +18,9 @@ const state = reactive({
 })
 
 const methods = {
-    async getExercises() {
+    async getExercises(bodyPart) {
         try {
-            const response = await fetch("https://exercisedb.p.rapidapi.com/exercises", {
+            const response = await fetch(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, {
                "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "exercisedb.p.rapidapi.com",
@@ -29,30 +29,39 @@ const methods = {
             })
             const data = await response.json()
             state.exercises = data
+            return data
         } catch (err) {
             state.error = err.message
         }
     },
-    setExerciseState(bodyPart) {
-        switch (bodyPart) {
-            case 'back':
-                state.back = state.exercises.filter(exercise => exercise.bodyPart === 'back').sort()
-            case 'chest':
-                state.chest = state.exercises.filter(exercise => exercise.bodyPart === 'chest').sort()
-            case 'legs':
-                state.legs = state.exercises.filter(exercise => exercise.bodyPart === 'lower legs' || exercise.bodyPart === 'upper legs').sort() 
-            case 'arms':
-                state.arms = state.exercises.filter(exercise => exercise.bodyPart === 'lower arms' || exercise.bodyPart === 'upper arms').sort()
-            case 'neck':
-                state.neck = state.exercises.filter(exercise => exercise.bodyPart === 'neck').sort() 
-            case 'shoulders':
-                state.shoulders = state.exercises.filter(exercise => exercise.bodyPart === 'shoulders').sort() 
-            case 'core':
-                state.core = state.exercises.filter(exercise => exercise.bodyPart === 'waist').sort() 
-            case 'cardio':
-                state.cardio = state.exercises.filter(exercise => exercise.bodyPart === 'cardio').sort()
-        }
-    },
+    // setExerciseState(bodyPart) {
+    //     switch (bodyPart) {
+    //         case 'back':
+    //             state.back = state.exercises.filter(exercise => exercise.bodyPart === 'back').sort()
+    //             break;
+    //         case 'chest':
+    //             state.chest = state.exercises.filter(exercise => exercise.bodyPart === 'chest').sort()
+    //             break;
+    //         case 'legs':
+    //             state.legs = state.exercises.filter(exercise => exercise.bodyPart === 'lower legs' || exercise.bodyPart === 'upper legs').sort() 
+    //             break;
+    //         case 'arms':
+    //             state.arms = state.exercises.filter(exercise => exercise.bodyPart === 'lower arms' || exercise.bodyPart === 'upper arms').sort()
+    //             break;
+    //         case 'neck':
+    //             state.neck = state.exercises.filter(exercise => exercise.bodyPart === 'neck').sort() 
+    //             break;
+    //         case 'shoulders':
+    //             state.shoulders = state.exercises.filter(exercise => exercise.bodyPart === 'shoulders').sort() 
+    //             break;
+    //         case 'core':
+    //             state.core = state.exercises.filter(exercise => exercise.bodyPart === 'waist').sort()
+    //             break;
+    //         case 'cardio':
+    //             state.cardio = state.exercises.filter(exercise => exercise.bodyPart === 'cardio').sort()
+    //             break;
+    //     }
+    // },
     addToWorkout(movement) {
         const formattedName = movement.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')
 
