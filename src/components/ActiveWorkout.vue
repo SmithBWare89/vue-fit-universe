@@ -1,5 +1,5 @@
 <template>
-    <div v-if="Object.keys(workouts.state.activeWorkout).length >= 1">
+    <div id="active-workout" v-if="Object.keys(workouts.state.activeWorkout).length >= 1">
         <div v-for="workout in workouts.state.activeWorkout" :key="workout">
             <div class="card">
                 {{ workout }}

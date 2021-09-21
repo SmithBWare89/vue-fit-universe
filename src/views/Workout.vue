@@ -33,7 +33,6 @@ export default {
 .workout {
   margin: 0 auto;
   width: 100%;
-  scroll-behavior: smooth;
 }
 
 .select-workouts {
