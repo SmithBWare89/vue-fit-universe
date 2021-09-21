@@ -10,13 +10,13 @@
 <script>
 import { inject } from '@vue/runtime-core'
 import ActiveWorkout from '../components/ActiveWorkout.vue'
-import { NSpace } from 'naive-ui'
+import { NSpace, NLayout } from 'naive-ui'
 import WorkoutModal from '../components/WorkoutModal.vue'
 import NaiveWorkout from '../components/NaiveWorkout.vue'
 
 export default {
     name: 'Workout',
-    components: { WorkoutModal, ActiveWorkout, NSpace, NaiveWorkout },
+    components: { WorkoutModal, ActiveWorkout, NSpace, NaiveWorkout, NLayout },
     setup() {
       const { workouts, modal } = inject('store')
 
