@@ -117,7 +117,6 @@ import {
 import {onBeforeMount, ref} from 'vue'
 import { inject } from '@vue/runtime-core'
 import getUser from '@/composables/getUser.js'
-import { useRouter } from 'vue-router'
 import useLogout from '@/composables/signout.js'
 
 export default {
@@ -154,7 +153,6 @@ export default {
     const updatePassword = ref('')
     const { profile } = inject('store')
     const { user } = getUser()
-    const router = useRouter()
     const { logout } = useLogout()
 
     // Image Types Array
