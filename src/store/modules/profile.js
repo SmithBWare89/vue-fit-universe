@@ -91,7 +91,8 @@ const methods = {
     async deleteUser() {
         try {
             state.isPending = true
-            await projectAuth.currentUser.delete()
+            const response = await projectAuth.currentUser.delete()
+            console.log(response)
             state.isPending = false
         } catch (err) {
             console.log(err.message)

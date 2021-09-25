@@ -42,7 +42,7 @@ export default {
             }
         }
 
-        return { fit, email, password, displayName, handleSignup, isPending }
+        return { fit, email, password, displayName, handleSignup, isPending, error }
     }
 }
 </script>
