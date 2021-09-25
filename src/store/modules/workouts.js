@@ -16,7 +16,9 @@ const state = reactive({
     core: [],
     modalDisplay: false,
     activeWorkout: [],
-    ongoingWorkout: false
+    ongoingWorkout: false,
+    repOptions: [],
+    weightOptions: []
 })
 
 const methods = {
@@ -143,8 +145,7 @@ const methods = {
                 uid,
                 workout: state.activeWorkout
             }
-    
-            // const { displayName, email } = providerData
+
             const emptySets = state.activeWorkout.map(async (workout) => {
                 if (!Object.values(workout.sets).includes(0)) {
                     return false
@@ -155,6 +156,7 @@ const methods = {
 
             if (!emptySets) {
                 const response = await addDoc('userWorkout', workoutData)
+                console.log(response)
             } else {
                 throw new Error('Please fill in all rep and weight values.')
             }
@@ -164,6 +166,28 @@ const methods = {
     },
     resetError() {
         state.error = null
+    },
+    async setOptions() {
+        for(let i = 0; i <= 100; i++) {
+            await state.repOptions.push(
+                {
+                    label: i,
+                    value: i
+                }
+            )
+        }
+
+        console.log(state.repOptions)
+
+        for(let i = 0; i <= 500; i++) {
+            await state.weightOptions.push(
+                {
+                    label: i,
+                    value: i
+                }
+            )
+        }
+
     }
 
 }

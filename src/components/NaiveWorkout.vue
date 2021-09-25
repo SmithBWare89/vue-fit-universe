@@ -15,43 +15,22 @@
                         </n-space>
                     </template>
                     <n-space v-for="n in workout.numberSets" :key="n">
-                        <n-space :inline="true" align="center">
+                        <n-space align="center">
                             <p>Set {{n}}</p>
-                            <n-input-number 
+                            <n-select
+                                size="large"
+                                :options="workouts.state.repOptions"
+                                style="width: 200px"
+                                :consistent-menu-width="true"
                                 @update:value="(value) => handleRepUpdate(value, workout.formattedName, n)"
-                                size="small" 
-                                placeholder="Reps" 
-                                :min="1" 
-                                :max="100"
-                                :disabled="true"
-                                v-if="workout.saved"
                             />
-                            <n-input-number 
-                                @update:value="(value) => handleRepUpdate(value, workout.formattedName, n)"
-                                size="small" 
-                                placeholder="Reps" 
-                                :min="1" 
-                                :max="100"
-                                :disabled="false"
-                                v-else
-                            />
-                            <n-input-number 
+
+                            <n-select
+                                size="large"
+                                :options="workouts.state.weightOptions"
+                                style="width: 200px"
+                                :consistent-menu-width="true"
                                 @update:value="(value) => handleWeightUpdate(value, workout.formattedName, n)" 
-                                size="small" 
-                                placeholder="Weight" 
-                                :min="2" 
-                                :max="500"
-                                :disabled="true"
-                                v-if="workout.saved"
-                            />
-                            <n-input-number 
-                                @update:value="(value) => handleWeightUpdate(value, workout.formattedName, n)" 
-                                size="small" 
-                                placeholder="Weight" 
-                                :min="2" 
-                                :max="500"
-                                :disabled="false"
-                                v-else
                             />
                         </n-space>
                     </n-space>
@@ -69,16 +48,17 @@
 </template>
 
 <script>
-import { NSpace, NCard, NGrid, NGridItem, NInputNumber, NDynamicInput } from 'naive-ui'
-import { inject, ref } from '@vue/runtime-core'
+import { NSpace, NCard, NGrid, NGridItem, NInputNumber, NDynamicInput, NSelect } from 'naive-ui'
+import { inject, onBeforeMount, ref } from '@vue/runtime-core'
 
 export default {
     name: 'NaiveWorkout',
-    components: { NCard, NSpace, NGrid, NGridItem, NInputNumber, NDynamicInput },
+    components: { NCard, NSpace, NGrid, NGridItem, NInputNumber, NDynamicInput, NSelect },
     setup() {
         const { workouts } = inject('store')
         const repName = ref('')
         const weightName = ref('')
+        const value = ref('')
 
         // Add a set logic
         const addSet = async (e, formattedName) => {
@@ -126,9 +106,13 @@ export default {
             workouts.methods.updateWeight(value, formattedName, weightName.value)
         }
 
+        onBeforeMount(async () => {
+            await workouts.methods.setOptions()
+            console.log(workouts.state.repOptions)
+        })
 
 
-        return { workouts, addSet, handleRepUpdate, handleWeightUpdate, deleteSet  }
+        return { workouts, addSet, handleRepUpdate, handleWeightUpdate, deleteSet, value  }
     }
 }
 </script>
