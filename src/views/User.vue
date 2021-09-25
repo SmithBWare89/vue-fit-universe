@@ -185,7 +185,7 @@ export default {
     const handleProfileDelete = async (e) => {
       const response = await logout()
       console.log(response)
-      // await profile.methods.deleteUser()
+      await profile.methods.deleteUser()
       window.location = '/'
     }
 
