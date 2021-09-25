@@ -100,14 +100,6 @@ li {
     color: none
 }
 
-li:active {
-
-}
-
-li.active {
-
-}
-
 @media screen and (max-width: 960px) {
 }
 

@@ -1,7 +1,7 @@
 import { ref, watchEffect } from 'vue'
 import { projectFirestore } from '../firebase/config'
 
-const getCollection = (collection) => {
+const getCommentCollection = (collection) => {
 
   const documents = ref(null)
   const error = ref(null)
@@ -14,7 +14,7 @@ const getCollection = (collection) => {
     let results = []
     snap.docs.forEach(doc => {
       // must wait for the server to create the timestamp & send it back
-      doc.data().createdAt && results.push({...doc.data(), id: doc.id})
+      doc.data() && results.push({...doc.data(), id: doc.id})
     });
     
     // update values
@@ -33,4 +33,4 @@ const getCollection = (collection) => {
   return { error, documents }
 }
 
-export default getCollection
+export default getCommentCollection

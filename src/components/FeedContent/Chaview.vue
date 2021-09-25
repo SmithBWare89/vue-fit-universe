@@ -18,7 +18,7 @@
 
 <script>
 // Composable
-import getCollection from "../../composables/getCollection";
+import getCommentCollection from "../../composables/getCommentCollection";
 
 // Vue Imports
 import { formatDistanceToNow } from "date-fns";
@@ -29,7 +29,7 @@ export default {
   name: "ChatView",
   setup() {
     // Variables
-    const { error, documents } = getCollection('comments');
+    const { error, documents } = getCommentCollection('comments');
     // Take the comments collection, map over each comment
     // and return them with updated formatting
     const formattedDocuments = computed(() => {

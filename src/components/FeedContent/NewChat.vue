@@ -17,7 +17,7 @@
 
 <script>
 // Composables
-import useCollection from "../../composables/useCollection";
+import useCollection from "../../composables/addDocument";
 import getUser from "../../composables/getUser";
 
 // Vue Imports

@@ -10,17 +10,10 @@ const logout = async () => {
     try {
         // Sign out using Firebase function
         const response = await projectAuth.signOut()        
-        if (!response) {
-            navbar.methods.setPending(true)
-        }
-
-        navbar.methods.setPending(false)
-
         error.value = false
         return response
     } catch (err) {
         error.value = err.message
-        navbar.methods.setPending(false)
     }
 }
 
