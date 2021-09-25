@@ -9,10 +9,10 @@
         <n-layout-sider bordered content-style="padding: 24px;">
           <n-space :vertical="true" align="center" justify="center">
             <div v-if="profile.state.url">
-              <n-avatar :round="true" :src="profile.state.url" :size="200"></n-avatar>
+              <n-avatar :round="false" :src="profile.state.url" :size="200"></n-avatar>
             </div>
             <div v-else>
-              <n-avatar :round="true" src="https://cdn-icons-png.flaticon.com/512/147/147144.png" :size="200" ></n-avatar>
+              <n-avatar :round="false" src="https://cdn-icons-png.flaticon.com/512/147/147144.png" :size="200" ></n-avatar>
             </div>
                 <!-- Upload New Image -->
                 <form id="avatar-form">

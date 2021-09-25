@@ -1,7 +1,7 @@
 import { startOfMinute, startOfQuarter, startOfSecond } from 'date-fns'
 import { reactive, readonly } from 'vue'
 import useCollection from '@/composables/addDocument.js'
-const { addDoc, isPending } = useCollection()
+const { addDoc } = useCollection()
 
 const state = reactive({
     exercises: '',
@@ -61,6 +61,7 @@ const methods = {
         })
     },
     clearActiveWorkout() {
+        console.log(state.activeWorkout)
         state.activeWorkout = []
     },
     increaseSets(formattedName) {
@@ -146,7 +147,11 @@ const methods = {
                 workout: state.activeWorkout
             }
 
+            // console.log(Object.values(workout.sets).includes(0))
+
             const emptySets = state.activeWorkout.map(async (workout) => {
+                console.log(workout)
+                console.log(Object.values(workout.sets).includes(0))
                 if (!Object.values(workout.sets).includes(0)) {
                     return false
                 } else {
@@ -154,12 +159,14 @@ const methods = {
                 }
             })
 
-            if (!emptySets) {
-                const response = await addDoc('userWorkout', workoutData)
-                console.log(response)
-            } else {
-                throw new Error('Please fill in all rep and weight values.')
-            }
+            console.log(emptySets)
+
+            // if (!emptySets) {
+            //     const response = await addDoc('userWorkout', workoutData)
+            //     methods.clearActiveWorkout()
+            // } else {
+            //     throw new Error('Please fill in all rep and weight values.')
+            // }
         } catch (err) {
             state.error = err.message
         }
@@ -167,29 +174,6 @@ const methods = {
     resetError() {
         state.error = null
     },
-    async setOptions() {
-        for(let i = 0; i <= 100; i++) {
-            await state.repOptions.push(
-                {
-                    label: i,
-                    value: i
-                }
-            )
-        }
-
-        console.log(state.repOptions)
-
-        for(let i = 0; i <= 500; i++) {
-            await state.weightOptions.push(
-                {
-                    label: i,
-                    value: i
-                }
-            )
-        }
-
-    }
-
 }
 
 export default { state: readonly(state), methods}

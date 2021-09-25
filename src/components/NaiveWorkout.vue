@@ -8,29 +8,32 @@
                 <n-card :title="workout.name" size="large">
                     <template #header-extra>
                         <n-space>
+                            <!-- Add Button -->
                             <button v-if="workout.saved" class="add-set" disabled>Add Set</button>
                             <button class="add-set" ref="addSetButton" @click="addSet($event, workout.formattedName)" v-else>Add Set</button>
+                            <!-- Delete Button -->
                             <button v-if="workout.saved" class="delete-set" disabled>Delete Set</button>
                             <button class="delete-set" @click="deleteSet($event, workout.formattedName, workout.numberSets)" v-else>Delete Set</button>
                         </n-space>
                     </template>
                     <n-space v-for="n in workout.numberSets" :key="n">
+                        <!-- Rep Input -->
                         <n-space align="center">
                             <p>Set {{n}}</p>
-                            <n-select
-                                size="large"
-                                :options="workouts.state.repOptions"
-                                style="width: 200px"
-                                :consistent-menu-width="true"
+                            <n-input-number 
                                 @update:value="(value) => handleRepUpdate(value, workout.formattedName, n)"
+                                size="small" 
+                                placeholder="Reps" 
+                                :min="1" 
+                                :max="100"
                             />
-
-                            <n-select
-                                size="large"
-                                :options="workouts.state.weightOptions"
-                                style="width: 200px"
-                                :consistent-menu-width="true"
+                            <!-- Weight Input -->
+                            <n-input-number 
                                 @update:value="(value) => handleWeightUpdate(value, workout.formattedName, n)" 
+                                size="small" 
+                                placeholder="Weight" 
+                                :min="2" 
+                                :max="500"
                             />
                         </n-space>
                     </n-space>
@@ -38,6 +41,7 @@
                         
                     </template> -->
                     <template #footer style="padding: 0px 0px !important;">
+                        <!-- Save Button -->
                         <button class="saved" v-if="workout.saved" @click.prevent="workouts.methods.unsaveSet(workout.formattedName)">Saved</button>
                         <button class="save-progress" v-else @click.prevent="workouts.methods.saveSet(workout.formattedName)">Save Progress</button>
                     </template>
@@ -105,12 +109,6 @@ export default {
             // Update the values
             workouts.methods.updateWeight(value, formattedName, weightName.value)
         }
-
-        onBeforeMount(async () => {
-            await workouts.methods.setOptions()
-            console.log(workouts.state.repOptions)
-        })
-
 
         return { workouts, addSet, handleRepUpdate, handleWeightUpdate, deleteSet, value  }
     }

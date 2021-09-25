@@ -1,8 +1,11 @@
 <template>
   <n-space vertical align="center" class="workout">
       <h1 v-if="workouts.state.error">{{ workouts.state.error }}</h1>
-      <button class="select-workouts" @click.prevent="modal.methods.openModal">Start Your Workout</button>
-      <button class="select-workouts" @click.prevent="workouts.methods.saveWorkout(user)">Save Your Workout</button>
+      <button class="select-workouts" @click.prevent="modal.methods.openModal" v-if="workouts.state.activeWorkout.length <= 0">Start Your Workout</button>
+      <n-space align="Center" v-else>
+        <!-- <button class="select-workouts" @click.prevent="workouts.methods.saveWorkout(user)">Save Your Workout</button> -->
+        <button class="select-workouts" @click.prevent="workouts.methods.clearActiveWorkout">Reset Workout</button>
+      </n-space>
     <!-- <ActiveWorkout /> -->
     <WorkoutModal />
     <NaiveWorkout />
