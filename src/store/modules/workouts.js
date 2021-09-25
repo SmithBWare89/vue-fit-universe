@@ -1,5 +1,7 @@
 import { startOfMinute, startOfQuarter, startOfSecond } from 'date-fns'
 import { reactive, readonly } from 'vue'
+import useCollection from '@/composables/addDocument.js'
+const { addDoc, isPending } = useCollection()
 
 const state = reactive({
     exercises: '',
@@ -14,11 +16,12 @@ const state = reactive({
     core: [],
     modalDisplay: false,
     activeWorkout: [],
-    ongoingWorkout: true
+    ongoingWorkout: false
 })
 
 const methods = {
     async getExercises(bodyPart) {
+        state.error = null
         try {
             const response = await fetch(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, {
                "method": "GET",
@@ -35,13 +38,15 @@ const methods = {
         }
     },
     addToWorkout(movement) {
+        state.error = null
         const formattedName = movement.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')
 
         state.activeWorkout.push({
             name: movement,
             formattedName: formattedName,
             numberSets: 1,
-            sets: {}
+            sets: {},
+            saved: false
         })
         
         state.activeWorkout.map(workout => {
@@ -57,6 +62,7 @@ const methods = {
         state.activeWorkout = []
     },
     increaseSets(formattedName) {
+        state.error = null
         state.activeWorkout.map(workout => {
             if (workout.formattedName === formattedName) {
                 workout.numberSets++
@@ -64,6 +70,7 @@ const methods = {
         })
     },
     decreaseSets(formattedName) {
+        state.error = null
         state.activeWorkout.map(workout => {
             if (workout.formattedName === formattedName && workout.numberSets > 0) {
                 workout.numberSets--
@@ -71,8 +78,8 @@ const methods = {
         })
     },
     addNewSet(repName, weightName, formattedName) {
+        state.error = null
         state.activeWorkout.map(workout => {
-            console.log(repName)
             if (workout.formattedName === formattedName) {
                 workout.sets = { ...workout.sets, [`${repName}`]:  0}
                 workout.sets = { ...workout.sets, [`${weightName}`]: 0}
@@ -80,7 +87,7 @@ const methods = {
         })
     },
     updateReps(value, formattedName, repName) {
-        console.log(formattedName)
+        state.error = null
         state.activeWorkout.map(workout => {
             if (workout.formattedName === formattedName) {
                 console.log(workout)
@@ -90,6 +97,7 @@ const methods = {
         })
     },
     updateWeight(value, formattedName, weightName) {
+        state.error = null
         state.activeWorkout.map(workout => {
             if (workout.formattedName === formattedName) {
                 workout.sets = {...workout.sets, [`${weightName}`]: value}
@@ -97,6 +105,7 @@ const methods = {
         })
     },
     deleteSet(formattedName, repName, weightName) {
+        state.error = null
         state.activeWorkout.map((workout, index) => {
             if (workout.numberSets === 0) {
                 state.activeWorkout = state.activeWorkout.filter(name => name.formattedName !== formattedName)
@@ -106,6 +115,56 @@ const methods = {
             }
         })
     },
+    saveSet(formattedName) {
+        state.error = null
+        state.activeWorkout.map((workout, index) => {
+            if (workout.formattedName === formattedName) {
+                workout.saved = true
+            }
+        })
+
+    },
+    unsaveSet(formattedName) {
+        state.error = null
+        state.activeWorkout.map((workout, index) => {
+            if (workout.formattedName === formattedName) {
+                workout.saved = false
+            }
+        })
+    },
+    async saveWorkout(user) {
+        state.error = null
+        try {
+            const { displayName, email, uid } = user
+
+            const workoutData = {
+                displayName,
+                email,
+                uid,
+                workout: state.activeWorkout
+            }
+    
+            // const { displayName, email } = providerData
+            const emptySets = state.activeWorkout.map(async (workout) => {
+                if (!Object.values(workout.sets).includes(0)) {
+                    return false
+                } else {
+                    return true
+                }
+            })
+
+            if (!emptySets) {
+                const response = await addDoc('userWorkout', workoutData)
+            } else {
+                throw new Error('Please fill in all rep and weight values.')
+            }
+        } catch (err) {
+            state.error = err.message
+        }
+    },
+    resetError() {
+        state.error = null
+    }
 
 }
 

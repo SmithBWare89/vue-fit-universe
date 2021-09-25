@@ -1,6 +1,8 @@
 <template>
   <n-space vertical align="center" class="workout">
-      <button class="select-workouts" @click.prevent="modal.methods.openModal">Select Workouts</button>
+      <h1 v-if="workouts.state.error">{{ workouts.state.error }}</h1>
+      <button class="select-workouts" @click.prevent="modal.methods.openModal">Start Your Workout</button>
+      <button class="select-workouts" @click.prevent="workouts.methods.saveWorkout(user)">Save Your Workout</button>
     <!-- <ActiveWorkout /> -->
     <WorkoutModal />
     <NaiveWorkout />
@@ -13,18 +15,20 @@ import ActiveWorkout from '../components/ActiveWorkout.vue'
 import { NSpace, NLayout } from 'naive-ui'
 import WorkoutModal from '../components/WorkoutModal.vue'
 import NaiveWorkout from '../components/NaiveWorkout.vue'
+import getUser from '../composables/getUser'
 
 export default {
     name: 'Workout',
     components: { WorkoutModal, ActiveWorkout, NSpace, NaiveWorkout, NLayout },
     setup() {
       const { workouts, modal } = inject('store')
+      const { user } = getUser()
 
       const handleModalDisplay = () => {
         workouts.methods.setModalDisplay(true)
       }
 
-      return { modal, workouts, handleModalDisplay }
+      return { modal, workouts, handleModalDisplay, user }
     }
 }
 </script>

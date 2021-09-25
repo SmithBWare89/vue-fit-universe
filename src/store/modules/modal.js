@@ -7,6 +7,7 @@ const state = reactive({
 
 const methods = {
     openModal() {
+        workouts.methods.resetError()
         state.openModal = true
     },
     closeModal() {

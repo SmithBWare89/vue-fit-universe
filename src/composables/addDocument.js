@@ -10,8 +10,9 @@ import { projectFirestore } from '../firebase/config'
     isPending.value = true
 
     try {
-      await projectFirestore.collection(collection).add(doc)
+      const response = await projectFirestore.collection(collection).add(doc)
       isPending.value = false
+      return response
     }
     catch(err) {
       error.value = 'could not send the message'
