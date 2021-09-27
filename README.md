@@ -33,6 +33,10 @@ SO THAT I can share this information with like minded individuals across the glo
 * `Lifecycle hooks` exposed within the composition API are used to pre-load data prior to mounting the component for the user to see or to compute data for use within the component.
 * Components utilize the `template ref` method to create references within the template that can be dynamically updated with state changes.
 
+### API Call
+* Workout movements are generated using the [ExerciseDB](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb) API provided on [RapidAPI](https://www.rapidapi.com).
+* Clicking on a specific body part fetches data from the API and populates the results as clickable buttons to add a movement to your workout.
+
 ### Recyclable Functions
 * In `/composables` lies functions that can be reused throughout the entire project. Each JavaScript file contains logic to perform either of the `CRUD` operations for the Firebase Firestore.
 
