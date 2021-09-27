@@ -63,7 +63,7 @@ SO THAT I can share this information with like minded individuals across the glo
 ---
 
 ## Current Limitations
-* Unable to return the values for a previously saved workout to the input fields `value` property.
+* Unable to return the values for a previously saved workout to the input fields `value` property. `Values are retained but not seen on the front end.`
 * Resizing user avatar so that dimensions are not warped
 * Not mobile responsive
 * Only one chatroom field
