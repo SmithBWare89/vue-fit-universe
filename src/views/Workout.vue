@@ -32,7 +32,7 @@ import { inject, onMounted } from '@vue/runtime-core'
 import ActiveWorkout from '../components/ActiveWorkout.vue'
 import { NSpace, NLayout } from 'naive-ui'
 import WorkoutModal from '../components/WorkoutModal.vue'
-import NaiveWorkout from '../components/NaiveWorkout.vue'
+import NaiveWorkout from '../components/Workout.vue'
 import getUser from '../composables/getUser'
 import useGetWorkout from '@/composables/getWorkout'
 

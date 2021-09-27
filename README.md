@@ -36,6 +36,25 @@ SO THAT I can share this information with like minded individuals across the glo
 ### API Call
 * Workout movements are generated using the [ExerciseDB](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb) API provided on [RapidAPI](https://www.rapidapi.com).
 * Clicking on a specific body part fetches data from the API and populates the results as clickable buttons to add a movement to your workout.
+```
+async getExercises(bodyPart) {
+    state.error = null
+    try {
+        const response = await fetch(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "exercisedb.p.rapidapi.com",
+                "x-rapidapi-key": "ff95631745msh38f883d1de356a1p18e460jsn1c84f216cb9a"
+            }
+        })
+        const data = await response.json()
+        state.exercises = data
+        return data
+    } catch (err) {
+        state.error = err.message
+    }
+},
+```
 
 ### Recyclable Functions
 * In `/composables` lies functions that can be reused throughout the entire project. Each JavaScript file contains logic to perform either of the `CRUD` operations for the Firebase Firestore.
@@ -44,14 +63,44 @@ SO THAT I can share this information with like minded individuals across the glo
 * Main entry point for the application is the App.vue but the first page rended is the `Home` component.
 * `Except for the home page, all components are lazy loaded` using a callback function that not only allows webpack to chunk the data for the component but to only load the component when routed to it.
 * `Components beyond the login/signup screen require authentication` to be able to be displayed. `Authentication is provided by Firebase in firebase.config file.`
+```
+{
+    path: '/signup',
+    name: 'Signup',
+    component: () => import(/* webpackChunkName: "Signup" */ '../views/Signup.vue'),
+    beforeEnter: requireNoAuth
+},
+{
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import(/* webpackChunkName: "Dashboard" */ '../views/Dashboard.vue'),
+    beforeEnter: requireAuth
+},
+```
 
 ### State Management
 * State management is handled by using the Vue 3 `provide` and `inject` methods.
 * The modules are provided within the `App.vue` setup functions which allows the store modules to be made available throughout the entirety of the project. Components will then `inject` the module from the store required for the component.
 * In `/store` lies an `index.js` file which exports all of the "modules" that contain the local state for their area of the project as well as their own "methods."
 
+```
+provide('store', store)
+```
+
 ### Storage
 * Users are able to `upload` their own profile images to Firebase Storage. This data is persistent and will load whenever the user logs into their account.
+```
+    const uploadImage = async (file) => {
+        filePath.value = `userImage/${user.value.uid}`
+        const storageRef = projectStorage.ref(filePath.value)
+        try {
+            const response = await storageRef.put(file)
+            url.value = await response.ref.getDownloadURL()
+        } catch (err) {
+            error.value = err.message
+        }
+    }
+```
 * `Firebase's firestore` provides the storage required to save the chat comments as well as saving progress and the final workout version.
 * By using the firestore, users are able to return to their previously left off workout whenever they return to the application.
 

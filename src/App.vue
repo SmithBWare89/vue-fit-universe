@@ -32,6 +32,7 @@ export default {
     const { user } = getUser()
     const route = useRoute()
     const showNav = ref(false)
+    
     provide('store', store)
     const appStore = store
 
