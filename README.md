@@ -1,7 +1,7 @@
 # [Fit Universe V1](https://github.com/SmithBWare89/vue-fit-universe) - [Deployed](https://fit-universe-224e7.web.app/)
 
 ## Description 
-"Fit-Universe" was created to be a demonstration of Vue's composition API, state management capabilities with Vue version 3 (project/inject), and a way users can chat in
+"Fit-Universe" was created to be a demonstration of Vue's `composition API`, state management capabilities with Vue version 3 `(provide/inject)`, and a way users can chat in
 real time while also inputting their workout into the database.
 
 ---
