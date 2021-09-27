@@ -42,8 +42,6 @@
                     </template> -->
                     <template #footer style="padding: 0px 0px !important;">
                         <!-- Save Button -->
-                        <button class="saved" v-if="workout.saved" @click.prevent="workouts.methods.unsaveSet(workout.formattedName)">Saved</button>
-                        <button class="save-progress" v-else @click.prevent="workouts.methods.saveSet(workout.formattedName)">Save Progress</button>
                     </template>
                 </n-card>
             </n-grid-item>
@@ -146,7 +144,7 @@ export default {
         border-color: var(--munsell) !important;
     }
 
-    .save-progress {
+    /* .save-progress {
         width: 100%;
         height: 100%;
         padding: 15px;
@@ -157,7 +155,7 @@ export default {
         background-color: var(--white);
         color: var(--munsell);
         cursor: pointer;
-    }
+    } */
 
     .saved {
         background-color: var(--green);

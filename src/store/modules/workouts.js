@@ -1,7 +1,12 @@
-import { startOfMinute, startOfQuarter, startOfSecond } from 'date-fns'
+import { startOfMinute, startOfQuarter, startOfSecond, startOfWeek } from 'date-fns'
 import { reactive, readonly } from 'vue'
 import useCollection from '@/composables/addDocument.js'
+import getUser from '../../composables/getUser'
+import useUpdateSavedWorkout from '@/composables/updateWorkout'
+
 const { addDoc } = useCollection()
+const { user } = getUser()
+const { updateSavedWorkout, updatedWorkoutData, getWorkoutError } = useUpdateSavedWorkout()
 
 const state = reactive({
     exercises: '',
@@ -17,8 +22,7 @@ const state = reactive({
     modalDisplay: false,
     activeWorkout: [],
     ongoingWorkout: false,
-    repOptions: [],
-    weightOptions: []
+    savedWorkout: false
 })
 
 const methods = {
@@ -41,6 +45,7 @@ const methods = {
     },
     addToWorkout(movement) {
         state.error = null
+        state.ongoingWorkout = true
         const formattedName = movement.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')
 
         state.activeWorkout.push({
@@ -61,8 +66,10 @@ const methods = {
         })
     },
     clearActiveWorkout() {
-        console.log(state.activeWorkout)
         state.activeWorkout = []
+        state.ongoingWorkout = false
+        state.error = null
+        state.modalDisplay = false
     },
     increaseSets(formattedName) {
         state.error = null
@@ -79,6 +86,10 @@ const methods = {
                 workout.numberSets--
             }
         })
+
+        if(state.activeWorkout.length === 0) {
+            state.ongoingWorkout = false
+        }
     },
     addNewSet(repName, weightName, formattedName) {
         state.error = null
@@ -93,9 +104,7 @@ const methods = {
         state.error = null
         state.activeWorkout.map(workout => {
             if (workout.formattedName === formattedName) {
-                console.log(workout)
                 workout.sets = {...workout.sets, [`${repName}`]: value}
-                console.log(workout.sets)
             }
         })
     },
@@ -118,27 +127,36 @@ const methods = {
             }
         })
     },
-    saveSet(formattedName) {
-        state.error = null
-        state.activeWorkout.map((workout, index) => {
-            if (workout.formattedName === formattedName) {
-                workout.saved = true
+    async saveProgress() {
+        try {
+            if (!state.savedWorkout) {
+                // Add data to firestore
+                const data = { workout: state.activeWorkout, uid: user.value.uid }
+                await addDoc('savedWorkouts', data)
+                state.savedWorkout = true
+                state.error = null
             }
-        })
-
+        } catch (err) {
+            state.error = err.message
+        }
     },
-    unsaveSet(formattedName) {
-        state.error = null
-        state.activeWorkout.map((workout, index) => {
-            if (workout.formattedName === formattedName) {
-                workout.saved = false
-            }
-        })
+    async updateProgress() {
+        try {
+            await updateSavedWorkout(state.activeWorkout)
+        } catch (err) {
+            state.error = err.message
+        }
+    },
+    async deleteSavedProgress() {
+        
     },
     async saveWorkout(user) {
         state.error = null
         try {
             const { displayName, email, uid } = user
+            console.log(displayName)
+            console.log(email)
+            console.log(uid)
 
             const workoutData = {
                 displayName,
@@ -147,26 +165,20 @@ const methods = {
                 workout: state.activeWorkout
             }
 
-            // console.log(Object.values(workout.sets).includes(0))
-
-            const emptySets = state.activeWorkout.map(async (workout) => {
-                console.log(workout)
-                console.log(Object.values(workout.sets).includes(0))
-                if (!Object.values(workout.sets).includes(0)) {
-                    return false
-                } else {
+            const emptySets = state.activeWorkout.map(workout => {
+                if (Object.values(workout.sets).includes(0)) {
                     return true
+                } else {
+                    return false
                 }
             })
 
-            console.log(emptySets)
-
-            // if (!emptySets) {
-            //     const response = await addDoc('userWorkout', workoutData)
-            //     methods.clearActiveWorkout()
-            // } else {
-            //     throw new Error('Please fill in all rep and weight values.')
-            // }
+            if (!emptySets) {
+                await addDoc('savedWorkouts', workoutData)
+                methods.clearActiveWorkout()
+            } else {
+                throw new Error('Please fill in all rep and weight values.')
+            }
         } catch (err) {
             state.error = err.message
         }
@@ -174,6 +186,10 @@ const methods = {
     resetError() {
         state.error = null
     },
+    setSavedProgress(workout) {
+        state.savedWorkout = true
+        workout.forEach(data => state.activeWorkout = data)
+    }
 }
 
 export default { state: readonly(state), methods}

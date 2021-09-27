@@ -58,12 +58,6 @@ const routes = [
     name: 'User',
     component: () => import(/* webpackChunkName: "User" */ '../views/User.vue'),
     beforeEnter: requireAuth
-  },
-  {
-    path: '/shop',
-    name: 'Shop',
-    component: () => import(/* webpackChunkName: "Shop" */ '../views/Shop.vue'),
-    beforeEnter: requireAuth
   }
 ]
 

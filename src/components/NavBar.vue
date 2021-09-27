@@ -13,12 +13,6 @@
             <span class="nav-icons" @click="handleRouterClick('Workout')">
                 <i class="fas fa-dumbbell fa-3x"></i>
             </span>
-            <!-- <span class="nav-icons">
-                <i class="fas fa-music fa-3x"></i>
-            </span> -->
-            <span class="nav-icons" @click="handleRouterClick('Shop')">
-                <i class="fas fa-shopping-cart fa-3x"></i>
-            </span>
             <span class="nav-icons" @click="handleSignout">
                 <i class="fas fa-sign-out-alt fa-3x"></i>
             </span>
@@ -41,7 +35,8 @@ export default {
         }
 
         const handleSignout = async () => {
-            const response = await logout()
+            await logout()
+            
             if (!error.value) {
                 router.push({ name: 'Home' })
             }
