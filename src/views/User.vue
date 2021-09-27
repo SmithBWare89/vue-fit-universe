@@ -30,7 +30,7 @@
           <!-- Update Username -->
           <n-layout>
             <n-layout-header> 
-              <button @click="profile.methods.editUserName">
+              <button class="update-username">
                 Update Profile Name
               </button>
             </n-layout-header>
@@ -270,7 +270,9 @@ button:hover {
   margin-bottom: 10px;
 }
 
-#save-button {
-
+.update-username:hover {
+  background-color: var(--munsell);
+  color: var(--white);
+  cursor: default;
 }
 </style>

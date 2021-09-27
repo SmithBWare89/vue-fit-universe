@@ -20,21 +20,22 @@
                         <!-- Rep Input -->
                         <n-space align="center">
                             <p>Set {{n}}</p>
-                            <n-input-number 
+                                <!-- @update:value="(value) => handleRepUpdate(value, workout.formattedName, n)" -->
+                            <n-input-number
                                 @update:value="(value) => handleRepUpdate(value, workout.formattedName, n)"
                                 size="small" 
-                                placeholder="Reps" 
                                 :min="1" 
                                 :max="100"
                             />
                             <!-- Weight Input -->
                             <n-input-number 
-                                @update:value="(value) => handleWeightUpdate(value, workout.formattedName, n)" 
+                                @update:value="(value) => handleWeightUpdate(value, workout.formattedName, n)"
                                 size="small" 
                                 placeholder="Weight" 
                                 :min="2" 
                                 :max="500"
                             />
+                                <!-- :value="workouts.state.activeWorkout[`${n-1}`].sets[`${workout.formattedName}-${n}-weight`]" -->
                         </n-space>
                     </n-space>
                     <!-- <template #footer>
@@ -51,7 +52,7 @@
 
 <script>
 import { NSpace, NCard, NGrid, NGridItem, NInputNumber, NDynamicInput, NSelect } from 'naive-ui'
-import { inject, onBeforeMount, ref } from '@vue/runtime-core'
+import { inject, onBeforeMount, ref, watchEffect } from '@vue/runtime-core'
 
 export default {
     name: 'NaiveWorkout',
@@ -97,6 +98,7 @@ export default {
         const handleRepUpdate = (value, formattedName, numberSets) => {
             // Format the rep field name
             repName.value = `${formattedName}-${numberSets}-rep`
+
             // Update the values
             workouts.methods.updateReps(value, formattedName, repName.value)
         }

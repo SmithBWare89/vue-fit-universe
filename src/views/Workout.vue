@@ -1,24 +1,30 @@
 <template>
-  <n-space vertical align="center" class="workout">
+  <n-space vertical align="center" class="workout" v-if="workouts.state.ongoingWorkout">
       <!-- Error Handling -->
       <h1 v-if="workouts.state.error">{{ workouts.state.error }}</h1>
 
-      <!-- Finish and Save Workout -->
-      <button class="select-workouts" @click.prevent="workouts.methods.saveWorkout(user)" v-if="workouts.state.ongoingWorkout">Finish and Save</button>
+      <n-space>
+        <!-- Finish and Save Workout -->
+        <button class="select-workouts" @click.prevent="workouts.methods.saveWorkout(user)">Finish and Save</button>
 
-      <!-- Start and Add to workout conditionals -->
-      <button class="select-workouts" @click.prevent="modal.methods.openModal" v-if="workouts.state.ongoingWorkout">Add To Workout</button>
+        <!-- Start and Add to workout conditionals -->
+        <button class="select-workouts" @click.prevent="modal.methods.openModal">Add To Workout</button>
+
+        <!-- Reset, Save Progress, and Delete Save -->
+        <button class="select-workouts" v-if="workouts.state.ongoingWorkout" @click.prevent="workouts.methods.clearActiveWorkout(user)">Reset Workout</button>
+        <button class="select-workouts" v-if="workouts.state.ongoingWorkout" @click.prevent="handleSaveProgress(user)">Save Progress</button>
+        <!-- <button class="select-workouts saved" v-if="workouts.state.savedWorkout" @click.prevent="handleRemoveProgress">Delete Save</button> -->
+      </n-space>
+  </n-space>
+  <n-space vertical align="center" class="workout" v-else>
+      <!-- Error Handling -->
+      <h1 v-if="workouts.state.error">{{ workouts.state.error }}</h1>
+
       <button class="select-workouts" @click.prevent="modal.methods.openModal" v-else>Start Your Workout</button>
-
-      <!-- Reset, Save Progress, and Delete Save -->
-      <!-- <button class="select-workouts" v-if="workouts.state.ongoingWorkout" @click.prevent="workouts.methods.clearActiveWorkout">Reset Workout</button>
-      <button class="select-workouts" v-if="workouts.state.ongoingWorkout" @click.prevent="handleSaveProgress">Save Progress</button> -->
-      <!-- <button class="select-workouts saved" v-if="workouts.state.savedWorkout" @click.prevent="handleRemoveProgress">Delete Save</button> -->
-
+  </n-space>
     <!-- Components -->
     <WorkoutModal />
     <NaiveWorkout />
-  </n-space>
 </template>
 
 <script>
@@ -39,8 +45,7 @@ export default {
       const { getWorkout, workoutData, getWorkoutError } = useGetWorkout()
 
       onMounted(async () => {
-        await getWorkout()
-
+        await getWorkout(user.value.uid)
         if(workoutData.value && !getWorkoutError.value) {
           workouts.methods.setSavedProgress(workoutData.value)
         }
@@ -50,15 +55,15 @@ export default {
         workouts.methods.setModalDisplay(true)
       }
 
-      // const handleSaveProgress = async () => {
-      //   await workouts.methods.updateProgress()
-      // }
+      const handleSaveProgress = async (user) => {
+        await workouts.methods.saveProgress(user)
+      }
 
       // const handleRemoveProgress = async () => {
       //   await workouts.methods.deleteSavedProgress
       // }
 
-      return { modal, workouts, handleModalDisplay, user }
+      return { modal, workouts, handleModalDisplay, user, handleSaveProgress }
     }
 }
 </script>

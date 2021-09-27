@@ -3,22 +3,17 @@ import { ref } from '@vue/runtime-core'
 import getUser from '@/composables/getUser'
 
 const useGetWorkout = () => {
-    const workoutData = ref(null)
+    const workoutData = ref([])
     const getWorkoutError = ref(null)
     const { user } = getUser()
 
-    const getWorkout = async () => {
+    const getWorkout = async (uid) => {
         try {
             getWorkoutError.value = null
 
-            const response = await projectFirestore.collection('savedWorkouts').get()
+            const response = await projectFirestore.collection('savedWorkout').doc(uid).get()
 
-            workoutData.value = response.docs.map(doc => {
-                const {uid, workout} = doc.data()
-                if (uid === user.value.uid) {
-                    return workout
-                }
-            })
+            workoutData.value = response.data().workout
 
             if (workoutData.value.length === 0) {
                 workoutData.value = null

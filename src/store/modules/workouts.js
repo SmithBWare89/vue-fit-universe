@@ -1,12 +1,14 @@
 import { startOfMinute, startOfQuarter, startOfSecond, startOfWeek } from 'date-fns'
 import { reactive, readonly } from 'vue'
-import useCollection from '@/composables/addDocument.js'
-import getUser from '../../composables/getUser'
 import useUpdateSavedWorkout from '@/composables/updateWorkout'
+import useGetWorkout from '@/composables/getWorkout'
+import useAddPendingWorkout from '@/composables/addWorkout'
+import useDeleteWorkout from '@/composables/deleteWorkout'
 
-const { addDoc } = useCollection()
-const { user } = getUser()
-const { updateSavedWorkout, updatedWorkoutData, getWorkoutError } = useUpdateSavedWorkout()
+const { updateSavedWorkout, updatedWorkoutData } = useUpdateSavedWorkout()
+const { getWorkout, workoutData, getWorkoutError } = useGetWorkout()
+const { isPending, addPendingWorkout } = useAddPendingWorkout()
+const { deleteWorkout } = useDeleteWorkout()
 
 const state = reactive({
     exercises: '',
@@ -65,11 +67,17 @@ const methods = {
             }
         })
     },
-    clearActiveWorkout() {
-        state.activeWorkout = []
-        state.ongoingWorkout = false
-        state.error = null
-        state.modalDisplay = false
+    async clearActiveWorkout(user) {
+        try {
+            const{ uid } = user
+            await deleteWorkout(uid)
+            state.activeWorkout = []
+            state.ongoingWorkout = false
+            state.error = null
+            state.modalDisplay = false
+        } catch (err) {
+            state.error = err.message
+        }
     },
     increaseSets(formattedName) {
         state.error = null
@@ -106,6 +114,8 @@ const methods = {
             if (workout.formattedName === formattedName) {
                 workout.sets = {...workout.sets, [`${repName}`]: value}
             }
+
+            console.log(workout.sets)
         })
     },
     updateWeight(value, formattedName, weightName) {
@@ -114,6 +124,8 @@ const methods = {
             if (workout.formattedName === formattedName) {
                 workout.sets = {...workout.sets, [`${weightName}`]: value}
             }
+
+            console.log(workout.sets)
         })
     },
     deleteSet(formattedName, repName, weightName) {
@@ -127,36 +139,41 @@ const methods = {
             }
         })
     },
-    async saveProgress() {
+    async saveProgress(user) {
         try {
-            if (!state.savedWorkout) {
+            const { uid } = user
+            const data = { workout: state.activeWorkout, uid }
+
+            if(!state.savedWorkout) {
                 // Add data to firestore
-                const data = { workout: state.activeWorkout, uid: user.value.uid }
-                await addDoc('savedWorkouts', data)
+                await addPendingWorkout('savedWorkout', uid, data)
                 state.savedWorkout = true
                 state.error = null
+            } else {
+                await methods.updateProgress('savedWorkout', uid, data)
             }
         } catch (err) {
             state.error = err.message
         }
     },
-    async updateProgress() {
+    async updateProgress(collection, uid, data) {
         try {
-            await updateSavedWorkout(state.activeWorkout)
+            await updateSavedWorkout(collection, uid, data)
         } catch (err) {
             state.error = err.message
         }
     },
-    async deleteSavedProgress() {
-
-    },
+    // async deleteSavedProgress() {
+    //     try {
+    //         await deleteProgress()
+    //     } catch (err) {
+    //         state.error = err.message
+    //     }
+    // },
     async saveWorkout(user) {
         state.error = null
         try {
             const { displayName, email, uid } = user
-            console.log(displayName)
-            console.log(email)
-            console.log(uid)
 
             const workoutData = {
                 displayName,
@@ -173,8 +190,11 @@ const methods = {
                 }
             })
 
+            await getWorkout()
+
             if (!emptySets) {
                 await addDoc('savedWorkouts', workoutData)
+                state.savedWorkout = false
                 methods.clearActiveWorkout()
             } else {
                 throw new Error('Please fill in all rep and weight values.')
@@ -188,7 +208,8 @@ const methods = {
     },
     setSavedProgress(workout) {
         state.savedWorkout = true
-        workout.forEach(data => state.activeWorkout = data)
+        state.ongoingWorkout = true
+        state.activeWorkout = workout
     }
 }
 

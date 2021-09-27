@@ -7,16 +7,11 @@ const useUpdateSavedWorkout = () => {
     const updatedWorkoutError = ref(null)
     const { user } = getUser()
 
-    const updateSavedWorkout = async (workout) => {
+    const updateSavedWorkout = async (collection, uid, data) => {
         try {
             updatedWorkoutError.value = null
 
-            const response = await projectFirestore.collection('savedWorkouts').where("uid", "==", user.value.uid).get(0)
-            console.log(response)
-            response.docs.map(doc => doc.set({
-                ...doc.data(),
-                workout
-            }))
+            const response = await projectFirestore.collection(collection).doc(uid).set(data)
 
             // workoutData.value = response.docs.map(doc => {
             //     const {uid, workout} = doc.data()
