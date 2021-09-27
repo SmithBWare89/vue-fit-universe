@@ -36,25 +36,6 @@ SO THAT I can share this information with like minded individuals across the glo
 ### API Call
 * Workout movements are generated using the [ExerciseDB](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb) API provided on [RapidAPI](https://www.rapidapi.com).
 * Clicking on a specific body part fetches data from the API and populates the results as clickable buttons to add a movement to your workout.
-```
-async getExercises(bodyPart) {
-    state.error = null
-    try {
-        const response = await fetch(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "exercisedb.p.rapidapi.com",
-                "x-rapidapi-key": "ff95631745msh38f883d1de356a1p18e460jsn1c84f216cb9a"
-            }
-        })
-        const data = await response.json()
-        state.exercises = data
-        return data
-    } catch (err) {
-        state.error = err.message
-    }
-},
-```
 
 ### Recyclable Functions
 * In `/composables` lies functions that can be reused throughout the entire project. Each JavaScript file contains logic to perform either of the `CRUD` operations for the Firebase Firestore.
