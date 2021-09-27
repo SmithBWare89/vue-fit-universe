@@ -148,7 +148,7 @@ const methods = {
         }
     },
     async deleteSavedProgress() {
-        
+
     },
     async saveWorkout(user) {
         state.error = null

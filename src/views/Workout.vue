@@ -11,8 +11,8 @@
       <button class="select-workouts" @click.prevent="modal.methods.openModal" v-else>Start Your Workout</button>
 
       <!-- Reset, Save Progress, and Delete Save -->
-      <button class="select-workouts" v-if="workouts.state.ongoingWorkout" @click.prevent="workouts.methods.clearActiveWorkout">Reset Workout</button>
-      <button class="select-workouts" v-if="workouts.state.ongoingWorkout" @click.prevent="handleSaveProgress">Save Progress</button>
+      <!-- <button class="select-workouts" v-if="workouts.state.ongoingWorkout" @click.prevent="workouts.methods.clearActiveWorkout">Reset Workout</button>
+      <button class="select-workouts" v-if="workouts.state.ongoingWorkout" @click.prevent="handleSaveProgress">Save Progress</button> -->
       <!-- <button class="select-workouts saved" v-if="workouts.state.savedWorkout" @click.prevent="handleRemoveProgress">Delete Save</button> -->
 
     <!-- Components -->
@@ -50,15 +50,15 @@ export default {
         workouts.methods.setModalDisplay(true)
       }
 
-      const handleSaveProgress = async () => {
-        await workouts.methods.updateProgress()
-      }
+      // const handleSaveProgress = async () => {
+      //   await workouts.methods.updateProgress()
+      // }
 
       // const handleRemoveProgress = async () => {
       //   await workouts.methods.deleteSavedProgress
       // }
 
-      return { modal, workouts, handleModalDisplay, user, handleSaveProgress, handleRemoveProgress }
+      return { modal, workouts, handleModalDisplay, user }
     }
 }
 </script>
