@@ -25,7 +25,6 @@ const loginUser = async (email, password) => {
     return res
   }
   catch(err) {
-    console.log(err.message)
     error.value = 'Unable to login user at this time.'
     isPending.value = false
   }

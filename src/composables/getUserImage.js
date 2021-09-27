@@ -13,8 +13,6 @@ const useGetUserImage = () => {
             filePath.value = `userImage/${user.value.uid}`
             const storageRef = await projectStorage.ref(filePath.value)
             retrievedURL.value = await storageRef.getDownloadURL()
-
-            console.log(retrievedURL.value)
         } catch (err) {
             error.value = err.message
         }

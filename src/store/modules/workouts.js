@@ -114,8 +114,6 @@ const methods = {
             if (workout.formattedName === formattedName) {
                 workout.sets = {...workout.sets, [`${repName}`]: value}
             }
-
-            console.log(workout.sets)
         })
     },
     updateWeight(value, formattedName, weightName) {
@@ -124,8 +122,6 @@ const methods = {
             if (workout.formattedName === formattedName) {
                 workout.sets = {...workout.sets, [`${weightName}`]: value}
             }
-
-            console.log(workout.sets)
         })
     },
     deleteSet(formattedName, repName, weightName) {

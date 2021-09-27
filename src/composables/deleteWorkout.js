@@ -7,11 +7,8 @@ const useDeleteWorkout = () => {
 
     const deleteWorkout = async (uid) => {
         try {
-            console.log(uid)
             error.value = null
-            const response = await projectFirestore.collection('savedWorkout').doc(uid).delete() 
-            console.log(response)
-            
+            const response = await projectFirestore.collection('savedWorkout').doc(uid).delete()             
         } catch (err) {
             error.value = err.message
         }       

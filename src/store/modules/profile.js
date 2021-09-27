@@ -50,7 +50,6 @@ const methods = {
     },
     async updateUsername(username) {
         try {
-            console.log(username)
             state.isPending = true
             await projectAuth.currentUser.updateProfile({
                 displayName: username
@@ -71,7 +70,7 @@ const methods = {
             state.url = await storageRef.getDownloadURL()
             state.error = null
         } catch (err) {
-            console.log(err)
+            state.error = err.message
         }
     },
     async uploadImage(file) {
@@ -92,10 +91,8 @@ const methods = {
         try {
             state.isPending = true
             const response = await projectAuth.currentUser.delete()
-            console.log(response)
             state.isPending = false
         } catch (err) {
-            console.log(err.message)
             setTimeout(() => {
                 state.error = err.message
             }, 1000 * 5)

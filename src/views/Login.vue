@@ -41,7 +41,6 @@ export default {
       const handleLogin = async () => {
           await loginUser(email.value, password.value)
           if(!error.value) {
-              console.log('user logged in')
               router.push({ name: 'Dashboard'})
           }
       }
