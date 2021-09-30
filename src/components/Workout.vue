@@ -16,6 +16,7 @@
                             <button class="delete-set" @click="deleteSet($event, workout.formattedName, workout.numberSets)" v-else>Delete Set</button>
                         </n-space>
                     </template>
+                    <!-- Creates input field based on the number of working sets -->
                     <n-space v-for="n in workout.numberSets" :key="n">
                         <!-- Rep Input -->
                         <n-space align="center">

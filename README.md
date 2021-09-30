@@ -28,6 +28,70 @@ SO THAT I can share this information with like minded individuals across the glo
 
 ## How It Works
 
+### Dynamically Named Variables For Modeling
+* Each workout that comes from the ExerciseDB API doesn't include a standardized formatting to their name. By increasing the number of sets for each movement, I needed to find
+a method to create variable names that can be tracked and updated. In order to do this I had to first format every name using the `.replaceAll()` method to eliminate spaces and
+special characters, the index or current number of sets, and whether the field was for a rep or weight.
+
+#### [store/modules/workout.js](https://github.com/SmithBWare89/vue-fit-universe/blob/main/src/store/modules/workouts.js)
+```
+    addToWorkout(movement) {
+        state.error = null
+        state.ongoingWorkout = true
+        <!-- Format the name -->
+        const formattedName = movement.replaceAll(' ', '-').replaceAll('/','-').replaceAll('(','').replaceAll(')','')
+
+        <!-- Push object into activeWorkout array -->
+        state.activeWorkout.push({
+            name: movement,
+            formattedName: formattedName,
+            numberSets: 1,
+            sets: {},
+            saved: false
+        })
+        
+        <!-- Map over each movement in activeWorkout array -->
+        state.activeWorkout.map(workout => {
+            <!-- If the current workout's name matches the movement name sent from the front end -->
+            if(workout.name === movement) {
+                <!-- Format the rep and weight key's -->
+                const repName = `${workout.formattedName}-${workout.numberSets}-rep`
+                const weightName = `${workout.formattedName}-${workout.numberSets}-weight`
+                
+                <!-- Send formatted names to be added as a set -->
+                methods.addNewSet(repName, weightName, formattedName)
+            }
+        })
+    },
+```
+
+#### [store/modules/workout.js](https://github.com/SmithBWare89/vue-fit-universe/blob/main/src/store/modules/workouts.js)
+```
+addNewSet(repName, weightName, formattedName) {
+    state.error = null
+    <!-- Find the matching movement in activeWorkout array -->
+    state.activeWorkout.map(workout => {
+        if (workout.formattedName === formattedName) {
+            <!-- Add the formatted keys to the sets object -->
+            workout.sets = { ...workout.sets, [`${repName}`]:  0}
+            workout.sets = { ...workout.sets, [`${weightName}`]: 0}
+        }
+    })
+},
+```
+
+#### [store/modules/workout.js](https://github.com/SmithBWare89/vue-fit-universe/blob/main/src/store/modules/workouts.js)
+```
+updateReps(value, formattedName, repName) {
+    state.error = null
+    state.activeWorkout.map(workout => {
+        if (workout.formattedName === formattedName) {
+            workout.sets = {...workout.sets, [`${repName}`]: value}
+        }
+    })
+},
+```
+
 ### Component Setup
 * `All components utilize the Vue 3 composition API` which allows all logic and life cycle hooks to be stored within the `setup()` function.
 * `Lifecycle hooks` exposed within the composition API are used to pre-load data prior to mounting the component for the user to see or to compute data for use within the component.
@@ -44,6 +108,8 @@ SO THAT I can share this information with like minded individuals across the glo
 * Main entry point for the application is the App.vue but the first page rended is the `Home` component.
 * `Except for the home page, all components are lazy loaded` using a callback function that not only allows webpack to chunk the data for the component but to only load the component when routed to it.
 * `Components beyond the login/signup screen require authentication` to be able to be displayed. `Authentication is provided by Firebase in firebase.config file.`
+
+#### 
 ```
 {
     path: '/signup',
