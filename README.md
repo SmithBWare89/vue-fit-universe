@@ -65,7 +65,6 @@ special characters, the index or current number of sets, and whether the field w
     },
 ```
 
-#### [store/modules/workout.js](https://github.com/SmithBWare89/vue-fit-universe/blob/main/src/store/modules/workouts.js)
 ```
 addNewSet(repName, weightName, formattedName) {
     state.error = null
@@ -80,7 +79,6 @@ addNewSet(repName, weightName, formattedName) {
 },
 ```
 
-#### [store/modules/workout.js](https://github.com/SmithBWare89/vue-fit-universe/blob/main/src/store/modules/workouts.js)
 ```
 updateReps(value, formattedName, repName) {
     state.error = null
@@ -109,7 +107,7 @@ updateReps(value, formattedName, repName) {
 * `Except for the home page, all components are lazy loaded` using a callback function that not only allows webpack to chunk the data for the component but to only load the component when routed to it.
 * `Components beyond the login/signup screen require authentication` to be able to be displayed. `Authentication is provided by Firebase in firebase.config file.`
 
-#### 
+#### [src/router/index.js](https://github.com/SmithBWare89/vue-fit-universe/blob/main/src/router/index.js)
 ```
 {
     path: '/signup',
@@ -136,6 +134,8 @@ provide('store', store)
 
 ### Storage
 * Users are able to `upload` their own profile images to Firebase Storage. This data is persistent and will load whenever the user logs into their account.
+
+#### [src/store/modules/profile.js](https://github.com/SmithBWare89/vue-fit-universe/blob/main/src/store/modules/profile.js)
 ```
     const uploadImage = async (file) => {
         filePath.value = `userImage/${user.value.uid}`
