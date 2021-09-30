@@ -91,7 +91,7 @@ updateReps(value, formattedName, repName) {
 ```
 
 ### Component Setup
-* `All components utilize the Vue 3 composition API` which allows all logic and life cycle hooks to be stored within the `setup()` function.
+* `All components utilize the Vue 3 composition API` which uses the `setup()` function for the components logic.
 * `Lifecycle hooks` exposed within the composition API are used to pre-load data prior to mounting the component for the user to see or to compute data for use within the component.
 * Components utilize the `template ref` method to create references within the template that can be dynamically updated with state changes.
 
